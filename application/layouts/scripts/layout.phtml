@@ -1,2 +1,24 @@
-Heey over here!!!
-<?php echo $this->layout()->content; ?>
+<html>
+<head>
+<link rel="stylesheet" href="css/jquery/cupertino/jquery-ui-1.8.1.custom.css" />
+<link rel="stylesheet" href="css/jquery/jquery.contextMenu.css" />
+<script src="js/jquery/jquery-1.4.2.min.js"></script>
+<script src="js/jquery/jquery-ui-1.8.1.custom.min.js"></script>
+<script src="js/jquery/jquery.cycle.all.js"></script>
+<script src="js/jquery/jquery.qtip-1.0.0-rc3.js"></script>
+<script src="js/jquery/jquery.contextMenu.js"></script>
+</head>
+<body style="background-image:url(images/new_bg2.jpg);background-attachment:fixed;background-repeat:no-repeat;background-color:rgb(14, 71, 138);" />
+  <div style="display:table;">
+    <div style="display:table-cell;padding:10px;">
+      advertisements
+    </div>
+    <div style="display:table-cell;width:100%;padding:10px;">
+      <div style="margin-bottom:10px;">
+        big header
+      </div>
+      <?php echo $this->layout()->content; ?>
+    </div>
+  </div>
+</body>
+</html>
