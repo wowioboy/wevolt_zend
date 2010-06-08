@@ -2,17 +2,17 @@
 
 class IndexController extends Zend_Controller_Action
 {
-
-    public function init()
-    {
-        /* Initialize action controller here */
-    }
+//    public function init()
+//    {
+//    }
 
     public function indexAction()
     {
-        // action body
+//        $users = new Model_DbTable_Users;
+//        $user = $users->fetchRow("encryptid = 'd67d8ab427'");
+//        echo $user->xp;
+//        $user->xp += 10;
+//        $user->save();
     }
-
-
 }
 

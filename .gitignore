@@ -1,0 +1,5 @@
+.project
+.zfproject.xml
+.buildpath
+/tests
+/docs
