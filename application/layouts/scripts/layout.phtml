@@ -12,6 +12,18 @@
   <div style="display:table;">
     <div style="display:table-cell;padding:10px;">
       advertisements
+      <div style="margin:10px;background-color:#f99;width:200px;">
+      <?php 
+      echo 'role: ' . Wevolt_Acl::getInstance()->getUserRole() . '<br />';
+      if (Zend_Auth::getInstance()->hasIdentity()) {
+	      echo 'welcome, ' . Zend_Auth::getInstance()->getIdentity()->username . 
+	      '<br />' . 
+	      '<button onclick="window.location=\'/auth/logout\';">logout</button>';
+      } else {
+      	  echo '<button onclick="window.location=\'/auth/login\';">login</button>';
+      }
+      ?>
+      </div>
     </div>
     <div style="display:table-cell;width:100%;padding:10px;">
       <div style="margin-bottom:10px;">
