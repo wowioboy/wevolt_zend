@@ -1,5 +1,5 @@
-<link rel="stylesheet" href="css/jquery/fullcalendar.css" />
-<script src="js/jquery/fullcalendar.js"></script>
+<link rel="stylesheet" href="<?php echo $this->baseUrl(); ?>/css/jquery/fullcalendar.css" />
+<script src="<?php echo $this->baseUrl(); ?>/js/jquery/fullcalendar.js"></script>
 <script>
 $(document).ready(function() {
 	$('#calendar').fullCalendar({
@@ -11,7 +11,7 @@ $(document).ready(function() {
 		},
 		allDayDefault: false,
 		userid: '<?php echo $this->userid; ?>',
-		events: '/calendar/get-events',
+		events: '<?php echo $this->baseUrl(); ?>/calendar/get-events',
 		eventRender: function(event, element, view) {
 			if (view.name == 'month') {
 				element.removeClass('fc-event fc-event-hori fc-corner-left fc-corner-right');
