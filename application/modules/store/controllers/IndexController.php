@@ -1,6 +1,6 @@
 <?php
 
-class User_CalendarController extends Zend_Controller_Action
+class Store_IndexController extends Zend_Controller_Action
 {
 
     public function init()

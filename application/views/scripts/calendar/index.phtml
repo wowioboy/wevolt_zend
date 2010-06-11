@@ -1,1 +1,124 @@
-<?php echo $this->partial('calendar/_calendar.phtml', array('userid' => '64223ccf3b0')); ?>
+<link rel="stylesheet" href="/css/jquery/fullcalendar.css" />
+<script src="/js/jquery/fullcalendar.js"></script>
+<script>
+$(document).ready(function() {
+	$('#calendar').fullCalendar({
+		theme: true,
+		header: {
+			left:   'prev,next today',
+	    	center: 'title',
+	    	right:  'sort month,agendaWeek,agendaDay'
+		},
+		allDayDefault: false,
+		defaultView: '<?php echo $this->view; ?>',
+		year: '<?php echo $this->year; ?>',
+		month: '<?php echo $this->month; ?>',
+		date: '<?php echo $this->day; ?>',
+		userid: '<?php echo $this->id; ?>',
+		events: '/calendar/get-events',
+		eventRender: function(event, element, view) {
+			if (view.name == 'month') {
+				element.removeClass('fc-event fc-event-hori fc-corner-left fc-corner-right');
+				var html ='<a href="http://www.wevolt.com/view_event.php?event='+event.encrypt_id+'">';
+				if ( event.thumb != '')
+					html += '<img style="border:solid 1px #000;" src="' + event.thumb + '" width="25" height="25" />';
+				else
+					html += '<div style="font-size:10px;"><b><i>' + event.title + '</i></b></div>';
+					 html += '</a>';
+				element.html(html);	 
+				
+				element.css('margin', '1px');
+			} else if (view.name == 'agendaWeek') {
+				element.removeClass('fc-event fc-event-vert fc-corner-top fc-corner-bottom');
+				var html = '';
+					if ( event.thumb != '')
+						html += '<div><a href="http://www.wevolt.com/view_event.php?event='+event.encrypt_id+'"><img style="border:solid 1px #000;" src="' + event.thumb + '" width="50" height="50" /></a></div>';
+					
+				      html += '<div><span style="font-size:10px;">' + $.fullCalendar.formatDate(event.start, 'h:mm tt');
+				if (event.end) {
+					html += ' - ' + $.fullCalendar.formatDate(event.end, 'h:mm tt');
+				}
+				html += '</span></div><div style="font-size:10px;">';
+				html += '<a href="http://www.wevolt.com/view_event.php?event='+event.encrypt_id+'">';
+				html += '<b><i>' + event.title + '</i></b>';
+				html += '</a>';
+				html += '</div>';
+				element.html(html);
+				element.css('margin', '1px');
+			} else if (view.name == 'agendaDay') {
+				element.removeClass('fc-event fc-event-vert fc-corner-top fc-corner-bottom');
+				var html = '<table cellspacing="0" cellpadding="0"><tr>';
+				if ( event.thumb != '')
+					html += '<td width="50" valign="top"><div><a href="http://www.wevolt.com/view_event.php?event='+event.encrypt_id+'"><img style="border:solid 1px #000;" src="' + event.thumb + '" width="40" height="40" hspace="5"/></a></div></td>';
+				
+				html += '<td width="150" valign="top" style="background-color:#e5e5e5; border:1px #666666 solid; padding:2px;overflow:hidden;height:40px;"><div style="overflow:hidden;height:40px;">';
+				
+				html += '<div style="font-size:10px;"><a href="http://www.wevolt.com/view_event.php?event='+event.encrypt_id+'"><b><i>' + event.title + '</i></b></a></div></div></td></tr></table>';
+				element.html(html);
+				element.css('margin', '1px');
+			}
+	    },
+		eventAfterRender: function(event, element, view) {
+			if (view.name == 'month') {
+				element.css('width', '52px');
+				element.qtip({
+					content: '<div>' + $.fullCalendar.formatDate(event.start, 'h:mm tt') + ' - ' + event.type + '</div><hr /><div><b><i>' + event.title + '</i></b></div><div>' + event.description + '</div>',
+					position: {
+						target: 'mouse',
+						adjust: {
+							screen: true
+						}
+					},
+					style: {
+						name: 'blue'
+					}
+				});
+			} else if (view.name == 'agendaWeek') {
+				element.css('height', 'auto');
+				element.css('width', '150px');
+				element.qtip({
+					content: '<div>' + event.type + '</div><hr /><div>' + event.description + '</div>',
+					position: {
+						target: 'mouse',
+						adjust: {
+							screen: true
+						}
+					},
+					style: {
+						name: 'blue'
+					}
+				});
+			} else if (view.name == 'agendaDay') {
+			element.css('height', 'auto');
+				element.css('width', '150px');
+				element.qtip({
+					content: '<div>' + event.type + '</div><hr /><div>' + event.description + '</div>',
+					position: {
+						target: 'mouse',
+						adjust: {
+							screen: true
+						}
+					},
+					style: {
+						name: 'blue'
+					}
+				});
+			
+			}
+	    }
+	});
+	$('#calendar_selector').change(function(value){
+		$('#calendar').fullCalendar('type', $(this).val()); 
+		$('#calendar').fullCalendar('refetchEvents');
+	});
+});
+</script>
+<?php if ($this->owner) : ?>
+<script>
+
+</script>
+<div>
+  <button id="addEvent">add event</button>
+</div>
+<?php endif; ?>
+<div id="calendar"></div>

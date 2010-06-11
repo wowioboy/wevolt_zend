@@ -19,7 +19,7 @@ class AuthController extends Zend_Controller_Action
    				$storage->write($user);
    				$this->_redirect('/');
             } else {
-            	echo 'That is the incorrect login info.';
+            	echo 'That\'s the incorrect login info.';
             }
         }
         $this->view->loginForm = $loginForm;

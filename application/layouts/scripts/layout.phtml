@@ -1,36 +1,63 @@
 <html>
 <head>
-<link rel="stylesheet" href="<?php echo $this->baseUrl(); ?>/css/jquery/cupertino/jquery-ui-1.8.1.custom.css" />
-<link rel="stylesheet" href="<?php echo $this->baseUrl(); ?>/css/jquery/jquery.contextMenu.css" />
-<script src="<?php echo $this->baseUrl(); ?>/js/jquery/jquery-1.4.2.min.js"></script>
-<script src="<?php echo $this->baseUrl(); ?>/js/jquery/jquery-ui-1.8.1.custom.min.js"></script>
-<script src="<?php echo $this->baseUrl(); ?>/js/jquery/jquery.cycle.all.js"></script>
-<script src="<?php echo $this->baseUrl(); ?>/js/jquery/jquery.qtip-1.0.0-rc3.js"></script>
-<script src="<?php echo $this->baseUrl(); ?>/js/jquery/jquery.contextMenu.js"></script>
+<link rel="stylesheet" href="/css/global.css" />
+<link rel="stylesheet" href="/css/jquery/cupertino/jquery-ui-1.8.1.custom.css" />
+<link rel="stylesheet" href="/css/jquery/jquery.contextMenu.css" />
+<link rel="stylesheet" href="/css/jquery/fancybox/jquery.fancybox-1.3.1.css" />
+<script src="/js/jquery/jquery-1.4.2.min.js"></script>
+<script src="/js/jquery/jquery-ui-1.8.1.custom.min.js"></script>
+<script src="/js/jquery/jquery.cycle.all.js"></script>
+<script src="/js/jquery/jquery.qtip-1.0.0-rc3.js"></script>
+<script src="/js/jquery/jquery.contextMenu.js"></script>
+<script src="/js/jquery/fancybox/jquery.easing-1.3.pack.js"></script>
+<!--<script src="/js/jquery/fancybox/jquery.mousewheel-3.0.2.pack.js"></script>-->
+<script src="/js/jquery/fancybox/jquery.fancybox-1.3.1.js"></script>
+<style>
+.bottom_links {
+	color:#fff;
+}
+.bottom_links a {
+	font-size:10px;
+	color:#fff;
+}
+</style>
 </head>
-<body style="background-image:url(<?php echo $this->baseUrl(); ?>/images/new_bg2.jpg);background-attachment:fixed;background-repeat:no-repeat;background-color:rgb(14, 71, 138);" />
-  <div style="display:table;">
-    <div style="display:table-cell;padding:10px;">
+<body>
+  <div class="divtable">
+    <div class="divcell center pad" style="width:30%;">
       advertisements
-      <div style="margin:10px;background-color:#f99;width:200px;">
-      <?php 
-      echo 'role: ' . Wevolt_Acl::getInstance()->getUserRole() . '<br />';
-      if (Zend_Auth::getInstance()->hasIdentity()) {
-	      echo 'welcome, ' . Zend_Auth::getInstance()->getIdentity()->username . 
-	      '<br />' . 
-	      '<button onclick="window.location=\'/logout\';">logout</button>';
-      } else {
-      	  echo '<button onclick="window.location=\'/login\';">login</button>';
-      }
-      ?>
+      <div class="push test back" style="width:300px;">
+        role: <?php echo Wevolt_Acl::getInstance()->getUserRole(); ?>
+        <br />
+        <?php if (Zend_Auth::getInstance()->hasIdentity()) : ?>
+        welcome, <?php echo Zend_Auth::getInstance()->getIdentity()->username; ?>
+        <br />
+        <button onclick="window.location='/logout';">logout</button>
+        <?php else : ?>
+        <button onclick="window.location='/login';">login</button>
+        <?php endif; ?>
+      </div>
+      <?php if (Wevolt_Acl::getInstance()->getUserRole() == 'guest') : ?>
+      <div>
+        <?php echo $this->partial('_getstarted.php'); ?>
+      </div>
+      <?php endif; ?>
+      <div>
+        <?php echo $this->partial('_spotlight.php'); ?>
+      </div>
+      <div class="bottom_links">
+        <a href="http://www.wowio.com/">2010 WOWIO</a> | 
+        <a href="/faqs/privacy">Privacy Policy</a> | 
+        <a href="/faqs/terms">Terms of Use</a>
       </div>
     </div>
-    <div style="display:table-cell;width:100%;padding:10px;">
-      <div style="margin-bottom:10px;">
+    <div class="divcell pad">
+      <div class="push">
         big header
       </div>
       <?php echo $this->layout()->content; ?>
     </div>
   </div>
+  <?php echo $this->partial('_toolbar.php'); ?>
 </body>
 </html>

@@ -17,6 +17,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$router->addRoute('logout', $route);
 		
 		# PLUGINS
-		$front->registerPlugin(new Wevolt_Plugin_Acl());
+//		$front->registerPlugin(new Wevolt_Plugin_Acl());
 	}
 }
