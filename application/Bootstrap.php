@@ -11,10 +11,18 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		
 		# CUSTOM ROUTES
 		$router = $front->getRouter();
-		$route = new Zend_Controller_Router_Route_Static('login', array('controller' => 'auth', 'action' => 'login'));
+		$route = new Zend_Controller_Router_Route_Static('/login', array('controller' => 'auth', 'action' => 'login'));
 		$router->addRoute('login', $route);
-		$route = new Zend_Controller_Router_Route_Static('logout', array('controller' => 'auth', 'action' => 'logout'));
+		$route = new Zend_Controller_Router_Route_Static('/logout', array('controller' => 'auth', 'action' => 'logout'));
 		$router->addRoute('logout', $route);
+		$route = new Zend_Controller_Router_Route('/user/:username/:controller/:action', array('module' => 'user', 
+																							   'controller' => 'index', 
+																							   'action' => 'index'));
+		$router->addRoute('user', $route);
+		$route = new Zend_Controller_Router_Route('/user/:username/calendar', array('module' => 'default', 
+																					'controller' => 'calendar', 
+																					'action' => 'index'));
+		$router->addRoute('user_calendar', $route);
 		
 		# PLUGINS
 //		$front->registerPlugin(new Wevolt_Plugin_Acl());

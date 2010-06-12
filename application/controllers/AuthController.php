@@ -4,6 +4,9 @@ class AuthController extends Zend_Controller_Action
 {
 	public function loginAction()
     {
+    	if ($this->view->iframe = $this->_getParam('iframe')) {
+    		$this->_helper->layout->disableLayout();
+    	}
 	    $loginForm = new Form_Login;
         if ($this->getRequest()->isPost() && $loginForm->isValid($this->_getAllParams())) {
         	$users = new Model_DbTable_Users;
@@ -17,7 +20,11 @@ class AuthController extends Zend_Controller_Action
             	$subscriptions = new Model_DbTable_Subscriptions;
             	$user->isPro = $subscriptions->getPro($user->encryptid);
    				$storage->write($user);
-   				$this->_redirect('/');
+   				if ($this->view->iframe) {
+	   				$this->view->closeModal = true;   					
+   				} else {
+	   				$this->_redirect('/');
+   				}
             } else {
             	echo 'That\'s the incorrect login info.';
             }

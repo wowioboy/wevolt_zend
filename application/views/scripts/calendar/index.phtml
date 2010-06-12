@@ -19,14 +19,19 @@ $(document).ready(function() {
 		eventRender: function(event, element, view) {
 			if (view.name == 'month') {
 				element.removeClass('fc-event fc-event-hori fc-corner-left fc-corner-right');
-				var html ='<a href="http://www.wevolt.com/view_event.php?event='+event.encrypt_id+'">';
-				if ( event.thumb != '')
+				var html ='<a eventid="' + event.encrypt_id + '" href="http://www.wevolt.com/view_event.php?event='+event.encrypt_id+'">';
+				if ( event.thumb != '') {
 					html += '<img style="border:solid 1px #000;" src="' + event.thumb + '" width="25" height="25" />';
-				else
+				} else {
 					html += '<div style="font-size:10px;"><b><i>' + event.title + '</i></b></div>';
 					 html += '</a>';
+				}
+				html += '<ul id="eventmenu_' + event.encrypt_id + '">' + 
+				  		  '<li class="edit">' + 
+				    	    '<a href="">edit</a>' + 
+				  		  '</li>' + 
+						'</ul>';
 				element.html(html);	 
-				
 				element.css('margin', '1px');
 			} else if (view.name == 'agendaWeek') {
 				element.removeClass('fc-event fc-event-vert fc-corner-top fc-corner-bottom');
@@ -48,12 +53,17 @@ $(document).ready(function() {
 			} else if (view.name == 'agendaDay') {
 				element.removeClass('fc-event fc-event-vert fc-corner-top fc-corner-bottom');
 				var html = '<table cellspacing="0" cellpadding="0"><tr>';
-				if ( event.thumb != '')
+				if ( event.thumb != '') {
 					html += '<td width="50" valign="top"><div><a href="http://www.wevolt.com/view_event.php?event='+event.encrypt_id+'"><img style="border:solid 1px #000;" src="' + event.thumb + '" width="40" height="40" hspace="5"/></a></div></td>';
-				
+				}
 				html += '<td width="150" valign="top" style="background-color:#e5e5e5; border:1px #666666 solid; padding:2px;overflow:hidden;height:40px;"><div style="overflow:hidden;height:40px;">';
-				
-				html += '<div style="font-size:10px;"><a href="http://www.wevolt.com/view_event.php?event='+event.encrypt_id+'"><b><i>' + event.title + '</i></b></a></div></div></td></tr></table>';
+				html += '<div style="font-size:10px;"><a href="http://www.wevolt.com/view_event.php?event='+event.encrypt_id+'"><b><i>' + event.title + '</i></b></a></div></div>' + 
+						'<ul style="display:none" id="eventmenu_' + event.encrypt_id + '">' + 
+						  '<li class="edit">' + 
+						    '<a href="">edit</a>' + 
+						  '</li>' + 
+						'</ul>' +
+						'</td></tr></table>';
 				element.html(html);
 				element.css('margin', '1px');
 			}
@@ -61,6 +71,9 @@ $(document).ready(function() {
 		eventAfterRender: function(event, element, view) {
 			if (view.name == 'month') {
 				element.css('width', '52px');
+				$('a[eventid=' + event.encrypt_id + ']').contextMenu({
+					menu: 'eventmenu_' + event.encrypt_id
+				});	
 				element.qtip({
 					content: '<div>' + $.fullCalendar.formatDate(event.start, 'h:mm tt') + ' - ' + event.type + '</div><hr /><div><b><i>' + event.title + '</i></b></div><div>' + event.description + '</div>',
 					position: {
@@ -89,8 +102,11 @@ $(document).ready(function() {
 					}
 				});
 			} else if (view.name == 'agendaDay') {
-			element.css('height', 'auto');
+				element.css('height', 'auto');
 				element.css('width', '150px');
+				element.contextMenu({
+					menu: 'eventmenu_' + event.encrypt_id
+				});	
 				element.qtip({
 					content: '<div>' + event.type + '</div><hr /><div>' + event.description + '</div>',
 					position: {

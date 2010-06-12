@@ -2,21 +2,26 @@
 .contextMenu {
 	position: absolute;
 	width: 120px;
-	z-index: 99999;
+/*	z-index: 99999; */
 	border: solid 1px #aec1e8;
 	background: #bdd2ff;
 	background:-webkit-gradient(
 	    linear,
 	    left bottom,
 	    left top,
-	    color-stop(0.96, rgb(255,255,255)),
-	    color-stop(0.19, rgb(189,210,255))
+	    color-stop(0.9, rgb(255,255,255)),
+	    color-stop(0.1, rgb(189,210,255))
 	);
 	background:-moz-linear-gradient(
 	    center bottom,
-	    rgb(255,255,255) 96%,
-	    rgb(189,210,255) 19%
+	    rgb(255,255,255) 90%,
+	    rgb(189,210,255) 10%
 	);
+	background: filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFFFFF, 
+																  endColorstr=#b6d7f4);
+	background: -ms-filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFFFFF, 
+																	  endColorstr=#b6d7f4, 
+																	  GradientType=1);
 	padding: 0px;
 	margin: 0px;
 	font-family:"Verdana";

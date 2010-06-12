@@ -1,1 +1,16 @@
 <?php echo $this->loginForm->render(); ?>
+
+<?php if ($this->iframe) : ?>
+	<script src="/js/jquery/jquery-1.4.2.min.js"></script>
+	<?php if ($this->closeModal) : ?>
+	<script>
+	parent.$.fancybox.close();
+	parent.window.location = parent.window.location.href;
+	</script>
+	<?php endif; ?>
+<?php endif; ?>
+<script>
+$(document).ready(function(){
+	$('#email').focus();
+});
+</script>

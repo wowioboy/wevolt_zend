@@ -26,17 +26,6 @@
   <div class="divtable">
     <div class="divcell center pad" style="width:30%;">
       advertisements
-      <div class="push test back" style="width:300px;">
-        role: <?php echo Wevolt_Acl::getInstance()->getUserRole(); ?>
-        <br />
-        <?php if (Zend_Auth::getInstance()->hasIdentity()) : ?>
-        welcome, <?php echo Zend_Auth::getInstance()->getIdentity()->username; ?>
-        <br />
-        <button onclick="window.location='/logout';">logout</button>
-        <?php else : ?>
-        <button onclick="window.location='/login';">login</button>
-        <?php endif; ?>
-      </div>
       <?php if (Wevolt_Acl::getInstance()->getUserRole() == 'guest') : ?>
       <div>
         <?php echo $this->partial('_getstarted.php'); ?>

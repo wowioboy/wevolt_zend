@@ -8,6 +8,14 @@ $(document).ready(function(){
 			$('#toolbar').slideUp('fast');
 		}
 	});
+	$('#loginbutton').click(function(){
+		$.fancybox({
+			href:'/login?iframe=1',
+			type:'iframe',
+			width:300,
+			height:300
+		});
+	});
 });
 </script>
 <style>
@@ -24,7 +32,7 @@ $(document).ready(function(){
 }
 #toolbar {
 	display:none;
-	height:40px;
+	height:50px;
 	border-top:2px solid #000;
 	background-color:#b6d7f4;
 	background: -webkit-gradient(linear, 
@@ -43,11 +51,16 @@ $(document).ready(function(){
 }
 </style>
 <div id="toolbar_holder">
-  <div style="height:10px;"></div>
+  <div style="height:20px;"></div>
   <div id="toolbar">
   	<div style="display:table;width:100%;height:100%;">
       <div style="display:table-cell;vertical-align:middle;text-align:center;height:100%;width:100%;">
         <!-- heres where all the code goes for the tool bar buttons and xp level and such -->
+        <?php if(Wevolt_Acl::getInstance()->getUserRole() == 'guest') : ?>
+        	<button id="loginbutton">login</button>
+       	<?php else : ?>
+       		<button onclick="window.location='/logout'">logout</button>
+        <?php endif; ?>
   	    <a href="/">home</a>
   	    <a href="/store">store</a>
       </div>
