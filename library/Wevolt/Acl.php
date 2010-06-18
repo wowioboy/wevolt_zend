@@ -13,15 +13,19 @@ class Wevolt_Acl extends Zend_Acl
 	
 	public function __construct()
 	{
+		# ADD USER TYPES
 		$this->addRole(new Zend_Acl_Role('prouser'));
 		$this->addRole(new Zend_Acl_Role('user'), 'prouser');
 		$this->addRole(new Zend_Acl_Role('guest'), 'user');
+		
+		# ADD RESOURCES
 		$this->add(new Zend_Acl_Resource('error'));
-		$this->add(new Zend_Acl_Resource('calendar'));
 		$this->add(new Zend_Acl_Resource('index'));
+		$this->add(new Zend_Acl_Resource('calendar'));
+		
 		$this->allow();
-//		$this->deny('guest', array('calendar'));
-//		$this->deny('user', 'reader', 'edit');
+		$this->deny('guest', 'calendar', 'add');
+		$this->deny('guest', 'calendar', 'edit');
 	}
 	
 	public function getUserRole()

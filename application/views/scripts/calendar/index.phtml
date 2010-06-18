@@ -18,62 +18,59 @@ $(document).ready(function() {
 		events: '/calendar/get-events',
 		eventRender: function(event, element, view) {
 			if (view.name == 'month') {
-				element.removeClass('fc-event fc-event-hori fc-corner-left fc-corner-right');
-				var html ='<a eventid="' + event.encrypt_id + '" href="http://www.wevolt.com/view_event.php?event='+event.encrypt_id+'">';
+				var html ='<a href="http://www.wevolt.com/view_event.php?event='+event.id+'">';
 				if ( event.thumb != '') {
 					html += '<img style="border:solid 1px #000;" src="' + event.thumb + '" width="25" height="25" />';
 				} else {
 					html += '<div style="font-size:10px;"><b><i>' + event.title + '</i></b></div>';
 					 html += '</a>';
 				}
-				html += '<ul id="eventmenu_' + event.encrypt_id + '">' + 
-				  		  '<li class="edit">' + 
-				    	    '<a href="">edit</a>' + 
-				  		  '</li>' + 
-						'</ul>';
-				element.html(html);	 
-				element.css('margin', '1px');
 			} else if (view.name == 'agendaWeek') {
-				element.removeClass('fc-event fc-event-vert fc-corner-top fc-corner-bottom');
-				var html = '';
-					if ( event.thumb != '')
-						html += '<div><a href="http://www.wevolt.com/view_event.php?event='+event.encrypt_id+'"><img style="border:solid 1px #000;" src="' + event.thumb + '" width="50" height="50" /></a></div>';
-					
-				      html += '<div><span style="font-size:10px;">' + $.fullCalendar.formatDate(event.start, 'h:mm tt');
+				var html = '<a href="http://www.wevolt.com/view_event.php?event='+event.id+'">';
+				if ( event.thumb != '') {
+					html += '<img style="border:solid 1px #000;" src="' + event.thumb + '" width="50" height="50" />';
+				}
+				html += '<div><span style="font-size:10px;">' + $.fullCalendar.formatDate(event.start, 'h:mm tt');
 				if (event.end) {
 					html += ' - ' + $.fullCalendar.formatDate(event.end, 'h:mm tt');
 				}
 				html += '</span></div><div style="font-size:10px;">';
-				html += '<a href="http://www.wevolt.com/view_event.php?event='+event.encrypt_id+'">';
 				html += '<b><i>' + event.title + '</i></b>';
-				html += '</a>';
-				html += '</div>';
-				element.html(html);
-				element.css('margin', '1px');
+				html += '</div></a>';
 			} else if (view.name == 'agendaDay') {
-				element.removeClass('fc-event fc-event-vert fc-corner-top fc-corner-bottom');
-				var html = '<table cellspacing="0" cellpadding="0"><tr>';
+				var html = '<a href="http://www.wevolt.com/view_event.php?event='+event.id+'"><table cellspacing="0" cellpadding="0"><tr>';
 				if ( event.thumb != '') {
-					html += '<td width="50" valign="top"><div><a href="http://www.wevolt.com/view_event.php?event='+event.encrypt_id+'"><img style="border:solid 1px #000;" src="' + event.thumb + '" width="40" height="40" hspace="5"/></a></div></td>';
+					html += '<td width="50" valign="top"><div><a href="http://www.wevolt.com/view_event.php?event='+event.id+'"><img style="border:solid 1px #000;" src="' + event.thumb + '" width="40" height="40" hspace="5"/></a></div></td>';
 				}
 				html += '<td width="150" valign="top" style="background-color:#e5e5e5; border:1px #666666 solid; padding:2px;overflow:hidden;height:40px;"><div style="overflow:hidden;height:40px;">';
-				html += '<div style="font-size:10px;"><a href="http://www.wevolt.com/view_event.php?event='+event.encrypt_id+'"><b><i>' + event.title + '</i></b></a></div></div>' + 
-						'<ul style="display:none" id="eventmenu_' + event.encrypt_id + '">' + 
-						  '<li class="edit">' + 
-						    '<a href="">edit</a>' + 
-						  '</li>' + 
-						'</ul>' +
-						'</td></tr></table>';
-				element.html(html);
-				element.css('margin', '1px');
+				html += '<div style="font-size:10px;"><b><i>' + event.title + '</i></b></div></div>' + 
+						'</td></tr></table></a>';
 			}
+			html += '<ul style="display:none;" id="eventmenu_' + event.id + '">' + 
+	  		  '<li>' + 
+	    	    '<a href="#delete">delete</a>' + 
+	  		  '</li>' + 
+			'</ul>';
+			element.html(html);
 	    },
 		eventAfterRender: function(event, element, view) {
+	    	<?php if ($this->owner) : ?>
+			element.contextMenu(
+				{menu: 'eventmenu_' + event.id},
+				function(action, el) {
+					if (action == 'delete') {
+						$.post('/calendar/delete', 
+							   {id: event.id},
+							   function() {
+								   $('#calendar').fullCalendar('refetchEvents');
+							   }
+						);
+					}
+				}
+			);	
+			<?php endif; ?>
 			if (view.name == 'month') {
 				element.css('width', '52px');
-				$('a[eventid=' + event.encrypt_id + ']').contextMenu({
-					menu: 'eventmenu_' + event.encrypt_id
-				});	
 				element.qtip({
 					content: '<div>' + $.fullCalendar.formatDate(event.start, 'h:mm tt') + ' - ' + event.type + '</div><hr /><div><b><i>' + event.title + '</i></b></div><div>' + event.description + '</div>',
 					position: {
@@ -105,7 +102,7 @@ $(document).ready(function() {
 				element.css('height', 'auto');
 				element.css('width', '150px');
 				element.contextMenu({
-					menu: 'eventmenu_' + event.encrypt_id
+					menu: 'eventmenu_' + event.id
 				});	
 				element.qtip({
 					content: '<div>' + event.type + '</div><hr /><div>' + event.description + '</div>',
@@ -127,6 +124,23 @@ $(document).ready(function() {
 		$('#calendar').fullCalendar('type', $(this).val()); 
 		$('#calendar').fullCalendar('refetchEvents');
 	});
+	$('#addEvent').click(function(){
+		$.fancybox({
+			href:'/calendar/add',
+			type:'iframe',
+			width:800,
+			height:600,
+			onClosed: function() {
+				$('#calendar').fullCalendar('refetchEvents');
+			}
+		});
+	});
+//	$('.delete_event').live('click', function(){
+//		var ans = confirm('are you sure you want to delte this?');
+//		if (ans) {
+//			alert('yes');
+//		}
+//	});
 });
 </script>
 <?php if ($this->owner) : ?>

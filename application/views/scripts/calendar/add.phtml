@@ -1,1 +1,22 @@
-<br /><br /><center>View script for controller <b>Calendar</b> and script/action name <b>add</b></center>
+<link rel="stylesheet" href="/css/jquery/cupertino/jquery-ui-1.8.1.custom.css" />
+<script src="/js/jquery/jquery-1.4.2.min.js"></script>
+<script src="/js/jquery/jquery-ui-1.8.1.custom.min.js"></script>
+<?php if ($this->saved) : ?>
+<script>
+parent.$.fancybox.close();
+</script>
+its now saved
+<?php endif; ?>
+<script>
+$(document).ready(function(){
+	$('#start_date').datepicker({
+		dateFormat: 'yy-mm-dd',
+		minDate: 0
+	});
+	$('#end_date').datepicker({
+		dateFormat: 'yy-mm-dd',
+		minDate: 0
+	});
+});
+</script>
+<?php echo $this->form; ?>

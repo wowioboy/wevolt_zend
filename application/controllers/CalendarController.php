@@ -41,12 +41,42 @@ class CalendarController extends Zend_Controller_Action
 
     public function addAction()
     {
-        // action body
+    	$this->_helper->layout->disableLayout();
+    	$form = new Form_Event;
+    	if ($this->getRequest()->isPost() && $form->isValid($this->_getAllParams())) {
+    		$calendar = new Model_DbTable_Calendar;
+    		$values = $form->getValues();
+    		$values['start'] = $values['start_date'] . ' ' . $values['start_time'];
+    		$values['end'] = $values['end_date'] . ' ' . $values['end_time'];
+    		$values['thumb'] = '/uploads/' . $values['thumb'];
+    		$location = $values['location'];
+    		unset($values['location']);
+    		$values += $location;
+    		$event = $calendar->createRow($values);
+    		$event->user_id = Zend_Auth::getInstance()->getIdentity()->encryptid;
+    		$event->save();
+    		$this->view->saved = true;
+    	} else {
+	    	$this->view->form = $form;
+    	}
     }
 
     public function editAction()
     {
-        // action body
+    	$this->_helper->layout->disableLayout();
+    	$this->_helper->viewRenderer->setNoRender();
+    	phpinfo();
+    }
+    
+    public function deleteAction()
+    {
+    	$this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        if ($id = $this->_getParam('id')) {
+        	$calendar = new Model_DbTable_Calendar;
+        	$event = $calendar->find($id)->current();
+        	$event->delete();
+        }
     }
 }
 

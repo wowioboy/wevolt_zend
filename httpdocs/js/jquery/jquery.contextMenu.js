@@ -74,7 +74,7 @@ if(jQuery)( function() {
 							
 							// Show the menu
 							$(document).unbind('click');
-							$(menu).css({ top: y, left: x }).fadeIn('fast');
+							$(menu).appendTo("body").css({top: y, left: x, zIndex:9999 }).fadeIn('fast');
 							// Hover events
 							$(menu).mouseout(function(e) {
 								if ($.contains(this, e.relatedTarget) == false) {
