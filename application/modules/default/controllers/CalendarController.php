@@ -41,21 +41,15 @@ class CalendarController extends Zend_Controller_Action
 
     public function addAction()
     {
-    	$this->_helper->layout->disableLayout();
-    	$form = new Form_Event;
+//    	$this->_helper->layout->disableLayout();
+    	$form = new Form_Event();
     	if ($this->getRequest()->isPost() && $form->isValid($this->_getAllParams())) {
     		$calendar = new Model_DbTable_Calendar;
     		$values = $form->getValues();
-    		$values['start'] = $values['start_date'] . ' ' . $values['start_time'];
-    		$values['end'] = $values['end_date'] . ' ' . $values['end_time'];
-    		$values['thumb'] = '/uploads/' . $values['thumb'];
-    		$location = $values['location'];
-    		unset($values['location']);
-    		$values += $location;
     		$event = $calendar->createRow($values);
     		$event->user_id = Zend_Auth::getInstance()->getIdentity()->encryptid;
     		$event->save();
-    		$this->view->saved = true;
+//    		$this->view->saved = true;
     	} else {
 	    	$this->view->form = $form;
     	}

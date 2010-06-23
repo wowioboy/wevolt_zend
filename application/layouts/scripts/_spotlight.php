@@ -15,9 +15,9 @@ $(document).ready(function(){
 </script>
 <div class="panel_holder" style="width:280px;">
 <div class="panel_top">
-  <div class="divtable">
-    <div class="divcell left middle">Spotlight</div>
-    <div class="divcell right middle"><span id="lowernavs"></span></div>
+  <div class="table">
+    <div class="cell left middle">Spotlight</div>
+    <div class="cell right middle"><span id="lowernavs"></span></div>
   </div>
 </div>
 <div class="panel_body" style="height:154px;">
@@ -29,13 +29,12 @@ $(document).ready(function(){
 		    <img src="<?php echo $spotlight->Thumb; ?>" border="0" />
 		  </a>
 	    <?php else : ?>
-		  <div style="height:5px;"></div>
 		  <table>
 		    <tr>
 		      <td valign="top"><img src="<?php echo $spotlight->Thumb; ?>"></td>
 		      <td valign="top" style="padding-left:5px;padding-right:2px;">
-		        <div class="sender_name"><?php echo $spotlight->Header; ?></div>
-		        <div class="messageinfo" style="font-size:12px;color:#000000;">
+		        <div class="sender_name" style="color:#000;"><?php echo $spotlight->Header; ?></div>
+		        <div style="font-size:12px;color:#000;">
 		          <?php echo $spotlight->Comment; ?>
 		          <br />
 		          <a href="<?php echo $spotlight->Link; ?>">CHECK IT OUT</a>

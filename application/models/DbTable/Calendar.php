@@ -58,11 +58,13 @@ class Model_DbTable_Calendar extends Zend_Db_Table_Abstract
 						$startMonth = $startDate->format('m');
 						$im = $m - $startMonth;
 						if ($im % $interval == 0) {
-					    	$startDate->setDate($y, $m, $startDate->format('d'));
-					    	$endDate->setDate($y, $m, $endDate->format('d'));
+					    	$newStart = clone $startDate;
+					    	$newEnd = clone $endDate;
+							$newStart->setDate($y, $m, $startDate->format('d'));
+					    	$newEnd->setDate($y, $m, $endDate->format('d'));
 					    	foreach ($weekDays as $dow) {
-								$startClone = clone $startDate;
-								$endClone = clone $endDate;
+								$startClone = clone $newStart;
+								$endClone = clone $newEnd;
 								$date = new DateTime();
 								$date->setDate($y, $m, 1);
 								$n = $date->format('N');

@@ -15,9 +15,9 @@ $(document).ready(function(){
 </script>
 <div class="panel_holder" style="width:412px;">
 <div class="panel_top">
-  <div class="divtable">
-    <div class="divcell left middle">Latest</div>
-    <div class="divcell right middle"><span id="latestnavs"></span></div>
+  <div class="table">
+    <div class="cell left middle">Latest</div>
+    <div class="cell right middle"><span id="latestnavs"></span></div>
   </div>
 </div>
 <div class="panel_body" style="height:230px;">

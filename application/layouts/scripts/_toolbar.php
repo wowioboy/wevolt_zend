@@ -53,8 +53,8 @@ $(document).ready(function(){
 <div id="toolbar_holder">
   <div style="height:20px;"></div>
   <div id="toolbar">
-  	<div style="display:table;width:100%;height:100%;">
-      <div style="display:table-cell;vertical-align:middle;text-align:center;height:100%;width:100%;">
+  	<div class="table" style="height:100%;">
+      <div class="cell middle center" style="height:100%;width:100%;">
         <!-- heres where all the code goes for the tool bar buttons and xp level and such -->
         <?php if(Wevolt_Acl::getInstance()->getUserRole() == 'guest') : ?>
         	<button id="loginbutton">login</button>
@@ -62,6 +62,7 @@ $(document).ready(function(){
        		<button onclick="window.location='/logout'">logout</button>
         <?php endif; ?>
   	    <a href="/">home</a>
+  	    <a href="/contact">contact</a>
   	    <a href="/store">store</a>
       </div>
   	</div>

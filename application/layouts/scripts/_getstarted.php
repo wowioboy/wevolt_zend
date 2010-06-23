@@ -38,10 +38,10 @@ $(document).ready(function(){
 				if (index < 7) {
 					next = '<img id="next" src="/images/getstarted/tut_next.png" />';
 				}
-			    title = '<div class="divtable">' + 
-			    		'<div class="divcell middle left" style="width:115px;">' + prev + '</div>' +
-			    		'<div class="divcell middle center">' + title + '</div>' + 
-			    		'<div class="divcell middle right" style="width:115px;">' + next + '</div>' +
+			    title = '<div class="table">' + 
+			    		'<div class="cell middle left" style="width:115px;">' + prev + '</div>' +
+			    		'<div class="cell middle center">' + title + '</div>' + 
+			    		'<div class="cell middle right" style="width:115px;">' + next + '</div>' +
 			    		'</div>';
 				return title;
 			}
@@ -57,8 +57,8 @@ $(document).ready(function(){
 </script>
 <div class="panel_holder" style="width:295px;">
   <div class="panel_top">
-    <div class="divtable">
-      <div class="divcell left middle">Get Started!</div>
+    <div class="table">
+      <div class="cell left middle">Get Started!</div>
     </div>
   </div>
   <div class="panel_body">

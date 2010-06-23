@@ -125,15 +125,16 @@ $(document).ready(function() {
 		$('#calendar').fullCalendar('refetchEvents');
 	});
 	$('#addEvent').click(function(){
-		$.fancybox({
-			href:'/calendar/add',
-			type:'iframe',
-			width:800,
-			height:600,
-			onClosed: function() {
-				$('#calendar').fullCalendar('refetchEvents');
-			}
-		});
+//		$.fancybox({
+//			href:'/calendar/add',
+//			type:'iframe',
+//			width:800,
+//			height:600,
+//			onClosed: function() {
+//				$('#calendar').fullCalendar('refetchEvents');
+//			}
+//		});
+		window.location='/calendar/add';
 	});
 //	$('.delete_event').live('click', function(){
 //		var ans = confirm('are you sure you want to delte this?');
@@ -152,8 +153,8 @@ $(document).ready(function() {
 </div>
 <?php endif; ?>
 <div class="panel_top">
-  <div class="divtable">
-    <div class="divcell middle">Calendar</div>
+  <div class="table">
+    <div class="cell middle">Calendar</div>
   </div>
 </div>
 <div id="calendar"></div>

@@ -6,36 +6,43 @@ class Form_Event extends Zend_Form
     {
     	$this->setMethod('post');
         $this->setAttrib('enctype', 'multipart/form-data');
-        $this->addElement('select', 'type', array(
-                'required' => true,
-        		'multiOptions' => array('event' => 'event',
-        							    'reminder' => 'reminder',
-        								'todo' => 'to do',
-        								'promotion' => 'promotion')
-        ));
-    	$this->addElement('text', 'title', array(
-                'label' => 'Title:',
-                'required' => true
-        ));
-        $this->addElement('textarea', 'description', array('label' => 'Description:', 'cols' => '25', 'rows' => '10'));
-    	$this->addElement('text', 'start_date', array('label' => 'Start:'));
-        $this->addElement('select', 'start_time', array('multiOptions' => Wevolt_Form_Data::getTimes()));
-        $this->addDisplayGroup(array('start_date', 'start_time'), 'start');
-        $this->addElement('text', 'end_date', array('label' => 'End:'));
-        $this->addElement('select', 'end_time', array('multiOptions' => Wevolt_Form_Data::getTimes()));
-        $this->addDisplayGroup(array('end_date', 'end_time'), 'end');
+        $this->addElement('select', 'type', array('required' => true, 'multiOptions' => Wevolt_Form_Data::getEventTypes()));
+    	$this->addElement('text', 'title', array('required' => true));
+        $this->addElement('textarea', 'description', array('cols' => '25', 'rows' => '5'));
+    	$this->addElement('text', 'location');
+    	
         $this->addElement('text', 'address', array('label' => 'address:'));
     	$this->addElement('text', 'address2', array('label' => 'address 2:'));
     	$this->addElement('text', 'city', array('label' => 'city:'));
     	$this->addElement('select', 'state', array('label' => 'state:', 'multiOptions' => Wevolt_Form_Data::getStates()));
     	$this->addElement('text', 'zip', array('label' => 'zip:'));
-        $this->addElement('file', 'thumb', array('label' => 'Thumbnail:', 'destination' => 'uploads'));
+    	
+    	$date = new DateTime(date('Y-m-d H:i:s'));
+    	$this->addElement('text', 'start_date', array('value' => $date->format('Y-m-d')));
+        $this->addElement('select', 'start_time', array('value' => $date->format('H:00:00'), 
+        												'multiOptions' => Wevolt_Form_Data::getTimes()));
+        $date->modify('+2 hour');
+        $this->addElement('text', 'end_date', array('value' => $date->format('Y-m-d')));
+        $this->addElement('select', 'end_time', array('value' => $date->format('H:00:00'),
+        											  'multiOptions' => Wevolt_Form_Data::getTimes()));
+        
+        $this->addElement('file', 'thumb', array('destination' => 'uploads'));
+        
         $this->addElement('select', 'frequency', array('multiOptions' => Wevolt_Form_Data::getFrequencies()));
-        $this->addElement('text', 'interval');
-        $this->addElement('select', 'week_day', array())
-        $this->addElement('submit', 'submit', array(
-            'ignore'   => true,
-            'label'    => 'Submit',
-        ));
+        $this->addElement('text', 'interval', array('value' => 1));
+        $this->addElement('checkbox', 'custom');
+        $this->addElement('select', 'week_number', array('multiOptions' => Wevolt_Form_Data::getWeekNumbers()));
+        $this->addElement('multicheckbox', 'week_day', array('multiOptions' => Wevolt_Form_Data::getWeekDays()));
+        $this->addElement('submit', 'submit');
+        $this->setElementDecorators(array('ViewHelper', 'Errors'));
+    }
+    
+    public function getValues()
+    {
+    	$values = parent::getValues();
+    	$values['start'] = $values['start_date'] . ' ' . $values['start_time'];
+    	$values['end'] = $values['end_date'] . ' ' . $values['end_time'];
+    	$values['week_day'] = implode(',', $values['week_day']);
+    	return $values;
     }
 }
