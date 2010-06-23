@@ -8,13 +8,17 @@ class CalendarController extends Zend_Controller_Action
         if ($user = $this->_getParam('username')) {
         	$users = new Model_DbTable_Users;
             $this->view->id = $users->getEncryptid($user);
+	        $auth = Zend_Auth::getInstance();
+	        if ($auth->hasIdentity() && $this->view->id == $auth->getIdentity()->encryptid) {
+	        	$this->view->owner = true;
+	        }
         }
         $this->view->view = 'month';
         if ($view = $this->_getParam('view')) {
         	if ($view == 'week') {
-            	$this->view->view = 'agendaWeek';
+            	$this->view->view = 'basicWeek';
             } else if ($view == 'day') {
-        		$this->view->view = 'agendaDay';
+        		$this->view->view = 'basicDay';
             }
        	}
         if (!$date = $this->_getParam('date')) {
@@ -24,10 +28,6 @@ class CalendarController extends Zend_Controller_Action
         $this->view->year = $date[0];
         $this->view->month = $date[1]-1;
         $this->view->day = $date[2];
-        $auth = Zend_Auth::getInstance();
-        if ($auth->hasIdentity() && $this->view->id == $auth->getIdentity()->encryptid) {
-        	$this->view->owner = true;
-        }
     }
 
     public function getEventsAction()
@@ -65,7 +65,8 @@ class CalendarController extends Zend_Controller_Action
     {
     	$this->_helper->layout->disableLayout();
     	$this->_helper->viewRenderer->setNoRender();
-    	phpinfo();
+    	$calendar = Wevolt_Factory::table('calendar');
+    	var_dump($calendar);
     }
     
     public function deleteAction()

@@ -113,6 +113,9 @@ class Wevolt_Form_Data
 	
 	static public function getFrequencies()
 	{
-		
+		return array('' => 'one time', 
+					 'day' => 'daily', 
+					 'week' => 'weekly', 
+					 'month' => 'monthly');
 	}
 }

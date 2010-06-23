@@ -4,9 +4,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	public function __construct($application)
 	{
 		parent::__construct($application);
-		
-		# REGISTER ADDITIONAL NAMESPACES
-		Zend_Loader_Autoloader::getInstance()->registerNamespace('Wevolt_');
+
 		$front = Zend_Controller_Front::getInstance();
 		
 		# CUSTOM ROUTES
@@ -25,6 +23,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$router->addRoute('user_calendar', $route);
 		
 		# PLUGINS
-		$front->registerPlugin(new Wevolt_Plugin_Acl());
+//		$front->registerPlugin(new Wevolt_Plugin_Acl());
 	}
 }

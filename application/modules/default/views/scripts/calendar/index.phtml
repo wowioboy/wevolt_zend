@@ -7,7 +7,7 @@ $(document).ready(function() {
 		header: {
 			left:   'prev,next today',
 	    	center: 'title',
-	    	right:  'sort month,agendaWeek,agendaDay'
+	    	right:  'sort month,basicWeek,basicDay'
 		},
 		allDayDefault: false,
 		defaultView: '<?php echo $this->view; ?>',
@@ -25,7 +25,7 @@ $(document).ready(function() {
 					html += '<div style="font-size:10px;"><b><i>' + event.title + '</i></b></div>';
 					 html += '</a>';
 				}
-			} else if (view.name == 'agendaWeek') {
+			} else if (view.name == 'basicWeek') {
 				var html = '<a href="http://www.wevolt.com/view_event.php?event='+event.id+'">';
 				if ( event.thumb != '') {
 					html += '<img style="border:solid 1px #000;" src="' + event.thumb + '" width="50" height="50" />';
@@ -37,7 +37,7 @@ $(document).ready(function() {
 				html += '</span></div><div style="font-size:10px;">';
 				html += '<b><i>' + event.title + '</i></b>';
 				html += '</div></a>';
-			} else if (view.name == 'agendaDay') {
+			} else if (view.name == 'basicDay') {
 				var html = '<a href="http://www.wevolt.com/view_event.php?event='+event.id+'"><table cellspacing="0" cellpadding="0"><tr>';
 				if ( event.thumb != '') {
 					html += '<td width="50" valign="top"><div><a href="http://www.wevolt.com/view_event.php?event='+event.id+'"><img style="border:solid 1px #000;" src="' + event.thumb + '" width="40" height="40" hspace="5"/></a></div></td>';
@@ -83,7 +83,7 @@ $(document).ready(function() {
 						name: 'blue'
 					}
 				});
-			} else if (view.name == 'agendaWeek') {
+			} else if (view.name == 'basicWeek') {
 				element.css('height', 'auto');
 				element.css('width', '150px');
 				element.qtip({
@@ -98,7 +98,7 @@ $(document).ready(function() {
 						name: 'blue'
 					}
 				});
-			} else if (view.name == 'agendaDay') {
+			} else if (view.name == 'basicDay') {
 				element.css('height', 'auto');
 				element.css('width', '150px');
 				element.contextMenu({
@@ -151,4 +151,9 @@ $(document).ready(function() {
   <button id="addEvent">add event</button>
 </div>
 <?php endif; ?>
+<div class="panel_top">
+  <div class="divtable">
+    <div class="divcell middle">Calendar</div>
+  </div>
+</div>
 <div id="calendar"></div>
