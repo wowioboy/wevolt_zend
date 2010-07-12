@@ -2,10 +2,11 @@
 <script src="/js/jquery/fullcalendar.js"></script>
 <script>
 $(document).ready(function() {
+	var eventArray = new Array();
 	$('#calendar').fullCalendar({
 		theme: true,
 		header: {
-			left:   'prev,next today',
+			left:   'prev,next today<?php echo ($this->owner) ? ' add edit trash' : ''; ?>',
 	    	center: 'title',
 	    	right:  'sort month,basicWeek,basicDay'
 		},
@@ -17,114 +18,75 @@ $(document).ready(function() {
 		userid: '<?php echo $this->id; ?>',
 		events: '/calendar/get-events',
 		eventRender: function(event, element, view) {
+			var html = '<a  href="javascript:void(0)" onclick="view_event(\'view\',\''+event.id+'\');">';
+			element.attr('eventid', event.id);
+			element.attr('encryptid', event.encrypt_id);
+			element.addClass(event.type);
 			if (view.name == 'month') {
-				var html ='<a href="http://www.wevolt.com/view_event.php?event='+event.id+'">';
 				if ( event.thumb != '') {
-					html += '<img style="border:solid 1px #000;" src="' + event.thumb + '" width="25" height="25" />';
+					html += '<img src="' + event.thumb + '" width="25" height="25" />';
 				} else {
 					html += '<div style="font-size:10px;"><b><i>' + event.title + '</i></b></div>';
-					 html += '</a>';
 				}
 			} else if (view.name == 'basicWeek') {
-				var html = '<a href="http://www.wevolt.com/view_event.php?event='+event.id+'">';
 				if ( event.thumb != '') {
-					html += '<img style="border:solid 1px #000;" src="' + event.thumb + '" width="50" height="50" />';
+					html += '<div><img src="' + event.thumb + '" width="50" height="50" /></div>';
 				}
-				html += '<div><span style="font-size:10px;">' + $.fullCalendar.formatDate(event.start, 'h:mm tt');
+			    html += '<div><span style="font-size:10px;">' + $.fullCalendar.formatDate(event.start, 'h:mm tt');
 				if (event.end) {
 					html += ' - ' + $.fullCalendar.formatDate(event.end, 'h:mm tt');
 				}
 				html += '</span></div><div style="font-size:10px;">';
 				html += '<b><i>' + event.title + '</i></b>';
-				html += '</div></a>';
-			} else if (view.name == 'basicDay') {
-				var html = '<a href="http://www.wevolt.com/view_event.php?event='+event.id+'"><table cellspacing="0" cellpadding="0"><tr>';
+				html += '</div>';
+			}else if (view.name == 'basicDay') {
+				html += '<table cellspacing="0" cellpadding="0"><tr>';
 				if ( event.thumb != '') {
-					html += '<td width="50" valign="top"><div><a href="http://www.wevolt.com/view_event.php?event='+event.id+'"><img style="border:solid 1px #000;" src="' + event.thumb + '" width="40" height="40" hspace="5"/></a></div></td>';
+					html += '<td width="50" valign="top"><div><img src="' + event.thumb + '" width="40" height="40" hspace="5"/></div></td>';
 				}
 				html += '<td width="150" valign="top" style="background-color:#e5e5e5; border:1px #666666 solid; padding:2px;overflow:hidden;height:40px;"><div style="overflow:hidden;height:40px;">';
-				html += '<div style="font-size:10px;"><b><i>' + event.title + '</i></b></div></div>' + 
-						'</td></tr></table></a>';
+				html += '<div style="font-size:10px;"><b><i>' + event.title + '</i></b></div></div></td></tr></table>';
 			}
-			html += '<ul style="display:none;" id="eventmenu_' + event.id + '">' + 
-	  		  '<li>' + 
-	    	    '<a href="#delete">delete</a>' + 
-	  		  '</li>' + 
-			'</ul>';
+			html += '</a>';
 			element.html(html);
 	    },
 		eventAfterRender: function(event, element, view) {
 	    	<?php if ($this->owner) : ?>
-			element.contextMenu(
-				{menu: 'eventmenu_' + event.id},
-				function(action, el) {
-					if (action == 'delete') {
-						$.post('/calendar/delete', 
-							   {id: event.id},
-							   function() {
-								   $('#calendar').fullCalendar('refetchEvents');
-							   }
-						);
-					}
-				}
-			);	
+			element.draggable({
+				revert: true,
+				helper: 'clone',
+				appendTo: 'body',
+				opacity: .5
+			});
 			<?php endif; ?>
-			if (view.name == 'month') {
-				element.css('width', '52px');
-				element.qtip({
-					content: '<div>' + $.fullCalendar.formatDate(event.start, 'h:mm tt') + ' - ' + event.type + '</div><hr /><div><b><i>' + event.title + '</i></b></div><div>' + event.description + '</div>',
-					position: {
-						target: 'mouse',
-						adjust: {
-							screen: true
-						}
-					},
-					style: {
-						name: 'blue'
-					}
-				});
-			} else if (view.name == 'basicWeek') {
-				element.css('height', 'auto');
-				element.css('width', '150px');
-				element.qtip({
-					content: '<div>' + event.type + '</div><hr /><div>' + event.description + '</div>',
-					position: {
-						target: 'mouse',
-						adjust: {
-							screen: true
-						}
-					},
-					style: {
-						name: 'blue'
-					}
-				});
-			} else if (view.name == 'basicDay') {
-				element.css('height', 'auto');
-				element.css('width', '150px');
-				element.contextMenu({
-					menu: 'eventmenu_' + event.id
-				});	
-				element.qtip({
-					content: '<div>' + event.type + '</div><hr /><div>' + event.description + '</div>',
-					position: {
-						target: 'mouse',
-						adjust: {
-							screen: true
-						}
-					},
-					style: {
-						name: 'blue'
-					}
-				});
-			
+			switch (view.name) {
+				case 'month':
+					var content = '<div>' + $.fullCalendar.formatDate(event.start, 'h:mm tt') + ' - ' + event.type + '</div><hr /><div><b><i>' + event.title + '</i></b></div><div>' + event.description + '</div>';
+					break;
+				default:
+					var content = '<div>' + event.type + '</div><hr /><div>' + event.description + '</div>';
 			}
+			element.qtip({
+				content: content,
+				position: {
+					target: 'mouse',
+					adjust: {
+						screen: true
+					}
+				},
+				style: {
+					name: 'blue'
+				}
+			});
 	    }
 	});
 	$('#calendar_selector').change(function(value){
 		$('#calendar').fullCalendar('type', $(this).val()); 
 		$('#calendar').fullCalendar('refetchEvents');
 	});
-	$('#addEvent').click(function(){
+<?php if ($this->owner) : ?>
+	$('#cal_add_button').click(function(){
+		window.location='/calendar/add';
 //		$.fancybox({
 //			href:'/calendar/add',
 //			type:'iframe',
@@ -134,24 +96,68 @@ $(document).ready(function() {
 //				$('#calendar').fullCalendar('refetchEvents');
 //			}
 //		});
-		window.location='/calendar/add';
 	});
-//	$('.delete_event').live('click', function(){
-//		var ans = confirm('are you sure you want to delte this?');
-//		if (ans) {
-//			alert('yes');
-//		}
-//	});
+	$('#cal_edit_button').qtip({
+		content: 'Drag events here to edit them.',
+		position: {
+			target: 'mouse',
+			adjust: {
+				screen: true
+			}
+		},
+		style: {
+			name: 'blue'
+		}
+	});
+	$('#cal_edit_button').droppable({
+		tolerance: 'pointer',
+		over: function() {
+			$(this).attr('src', '/images/silk/edit_on.png');
+		},
+		out: function() {
+			$(this).attr('src', '/images/silk/edit_off.png');
+		},
+		drop: function(event, ui) {
+			$(this).attr('src', '/images/silk/edit_off.png');
+			// edit page
+//			open_event_wizard('edit', ui.draggable.attr('encryptid'));
+//			console.log(eventId);
+			window.location='/calendar/edit?id=' + $(ui.draggable).attr('eventid');
+		}
+	});
+	$('#cal_trash_button').qtip({
+		content: 'Drag events here to delete them.',
+		position: {
+			target: 'mouse',
+			adjust: {
+				screen: true
+			}
+		},
+		style: {
+			name: 'blue'
+		}
+	});
+	$('#cal_trash_button').droppable({
+		tolerance: 'pointer',
+		over: function() {
+			$(this).attr('src', '/images/silk/trash_on.png');
+		},
+		out: function() {
+			$(this).attr('src', '/images/silk/trash_off.png');
+		},
+		drop: function(event, ui) {
+			var ans = confirm('are you sure you want to delte this event?');
+			if (ans) {
+				$.post('/calendar/delete', {id: ui.draggable.attr('eventid')}, function() {
+					$('#calendar').fullCalendar('refetchEvents');
+				});
+			}
+			$(this).attr('src', '/images/silk/trash_off.png');
+		}
+	});
+<?php endif; ?>
 });
 </script>
-<?php if ($this->owner) : ?>
-<script>
-
-</script>
-<div>
-  <button id="addEvent">add event</button>
-</div>
-<?php endif; ?>
 <div class="panel_top">
   <div class="table">
     <div class="cell middle">Calendar</div>

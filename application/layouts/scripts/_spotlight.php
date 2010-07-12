@@ -13,7 +13,7 @@ $(document).ready(function(){
 	});
 });
 </script>
-<div class="panel_holder" style="width:280px;">
+<div class="panel_holder justify" style="width:280px;">
 <div class="panel_top">
   <div class="table">
     <div class="cell left middle">Spotlight</div>

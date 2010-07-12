@@ -6,6 +6,7 @@ class Model_DbTable_Calendar extends Zend_Db_Table_Abstract
     
     public function getEvents($start, $end, $userId, $type = 'all')
     {
+    	$events = array();
     	$start = date('Y-m-d H:i:s', $start);
 		$end = date('Y-m-d H:i:s', $end);
     	$startDate = new DateTime($start);

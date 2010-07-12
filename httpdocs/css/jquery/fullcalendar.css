@@ -242,24 +242,38 @@ margin-top: 2px;
 .fc-event,
 .fc-agenda .fc-event-time,
 .fc-event a {
-/*	border-style: solid; 
-/*	border-color: #36c;     /* default BORDER color (probably the same as background-color) */
-/*	background-color: #36c; /* default BACKGROUND color */
-/*	color: #fff;            /* default TEXT color */
-	}
+	border-style: solid; 
+	border-color: #000;     /* default BORDER color (probably the same as background-color) */
+	background-color: #36c; /* default BACKGROUND color */
+	color: #fff;            /* default TEXT color */
+}
+
+.fc-event img {
+	border:none;
+}
 	
-	/* Use the 'className' CalEvent property and the following
-	 * example CSS to change event color on a per-event basis:
-	 *
-	 * .myclass,
-	 * .fc-agenda .myclass .fc-event-time,
-	 * .myclass a {
-	 *     background-color: black;
-	 *     border-color: black;
-	 *     color: red;
-	 *     }
-	 */
-	 
+/* added color based on event type */
+.promotion,
+.fc-agenda .promotion .fc-event-time,
+.promotion a {
+	background-color: #f7ffbe;
+	color: #000;
+}
+
+.reminder,
+.fc-agenda .reminder .fc-event-time,
+.reminder a {
+	background-color: #b9d1ea;
+	color: #000;
+}
+
+.todo,
+.fc-agenda .todo .fc-event-time,
+.todo a {
+	background-color: #cfffa3;
+	color: #000;
+}
+	
 .fc-event {
 	text-align: left;
 	}
@@ -574,5 +588,4 @@ margin-top: 2px;
 	text-align: center;
 	cursor: s-resize;
 	}
-	
 	

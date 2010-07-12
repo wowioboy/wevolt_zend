@@ -45,4 +45,16 @@ class Form_Event extends Zend_Form
     	$values['week_day'] = implode(',', $values['week_day']);
     	return $values;
     }
+    
+    public function populate($values)
+    {
+    	$startTime = explode(' ', $values['start']);
+    	$endTime = explode(' ', $values['end']);
+    	$values['start_date'] = $startTime[0];
+    	$values['start_time'] = $startTime[1];
+    	$values['end_date'] = $endTime[0];
+    	$values['end_time'] = $endTime[1];
+    	$values['week_day'] = explode(',', $values['week_day']);
+    	parent::populate($values);
+    }
 }

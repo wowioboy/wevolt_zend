@@ -747,17 +747,22 @@ $.fn.fullCalendar = function(options) {
 							}
 							prevButton = null;
 						}else if (buttonName == 'sort') {
-							tr.append("<td><div style=\"height:5px;\"></div>" +
-									"<select id=\"calendar_selector\">" +
-									"<option value=\"all\">all</option>" +
-									"<option value=\"event\">events</option>" +
-									"<option value=\"reminder\">reminders</option>" +
-									"<option value=\"todo\">todos</option>" +
-									"<option value=\"promotion\">promotions</option>" +
-									"<option value=\"update\">updates</option>" +
-									"</select></td>")
-						} else if (buttonName == 'add') {
-							tr.append("<td><div style=\"height:4px;\"></div><img src=\"http://www.wevolt.com/images/cal_add_off.jpg\" id=\"cal_plus_button\" onmouseover=\"this.src='http://www.wevolt.com/images/cal_add_over.jpg';\" onmouseout=\"this.src='http://www.wevolt.com/images/cal_add_off.jpg';\" onclick=\"open_event_wizard('new','');\" class=\"navbuttons\" width=\"25\"/></td>")
+							tr.append('<td><div style="height:5px;"></div>' +
+									'<select id="calendar_selector">' +
+									'<option value="all">all</option>' +
+									'<option value="event">events</option>' +
+									'<option value="reminder">reminders</option>' +
+									'<option value="todo">todos</option>' +
+									'<option value="promotion">promotions</option>' +
+									'</select></td>');
+						} else if (buttonName == 'add' || buttonName == 'trash' || buttonName == 'edit') {
+							if (buttonName == 'add') {
+								var events = 'onmouseover="this.src=\'/images/silk/' + buttonName + '_on.png\';" onmouseout="this.src=\'/images/silk/' + buttonName + '_off.png\';"';
+							}
+							tr.append('<td>' + 
+									  '<div style="height:4px;"></div>' + 
+									  '<img src="/images/silk/' + buttonName + '_off.png" id="cal_' + buttonName + '_button" ' + events +  ' />' + 
+									  '</td>');
 						} else {
 							var buttonClick;
 							if (publicMethods[buttonName]) {
@@ -1150,7 +1155,7 @@ function Grid(element, options, methods) {
 						' fc-today '+tm+'-state-highlight' :
 						' fc-not-today') + "'>" +
 						(showNumbers ? "<div class='fc-day-number'>" + d.getDate() + "</div>" : '') +
-						"<div class='fc-day-content'><div style='position:relative;'>&nbsp;</div></div></td>";
+						"<div class='fc-day-content'><div style='position:relative'>&nbsp;</div></div></td>";
 					addDays(d, 1);
 					if (nwe) {
 						skipWeekend(d);

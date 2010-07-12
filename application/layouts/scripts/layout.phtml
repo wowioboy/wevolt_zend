@@ -12,29 +12,16 @@
 <script src="/js/jquery/fancybox/jquery.easing-1.3.pack.js"></script>
 <!--<script src="/js/jquery/fancybox/jquery.mousewheel-3.0.2.pack.js"></script>-->
 <script src="/js/jquery/fancybox/jquery.fancybox-1.3.1.js"></script>
-<style>
-.bottom_links {
-	color:#fff;
-}
-.bottom_links a {
-	font-size:10px;
-	color:#fff;
-}
-</style>
 </head>
 <body>
   <div class="table">
-    <div class="cell center pad" style="width:30%;">
-      advertisements
+    <div class="cell center pad" style="width:300px;">
+      <a href="/"><img src="/images/wevolt_logo_no_tag.png" /></a>
       <?php if (Wevolt_Acl::getInstance()->getUserRole() == 'guest') : ?>
-      <div>
         <?php echo $this->partial('_getstarted.php'); ?>
-      </div>
       <?php endif; ?>
-      <div>
-        <?php echo $this->partial('_spotlight.php'); ?>
-      </div>
-      <div class="bottom_links">
+      <?php echo $this->partial('_spotlight.php'); ?>
+      <div class="center">
         <a href="http://www.wowio.com/">2010 WOWIO</a> | 
         <a href="/faqs/privacy">Privacy Policy</a> | 
         <a href="/faqs/terms">Terms of Use</a>

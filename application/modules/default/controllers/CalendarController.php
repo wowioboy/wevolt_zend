@@ -41,7 +41,6 @@ class CalendarController extends Zend_Controller_Action
 
     public function addAction()
     {
-//    	$this->_helper->layout->disableLayout();
     	$form = new Form_Event();
     	if ($this->getRequest()->isPost() && $form->isValid($this->_getAllParams())) {
     		$calendar = new Model_DbTable_Calendar;
@@ -49,7 +48,6 @@ class CalendarController extends Zend_Controller_Action
     		$event = $calendar->createRow($values);
     		$event->user_id = Zend_Auth::getInstance()->getIdentity()->encryptid;
     		$event->save();
-//    		$this->view->saved = true;
     	} else {
 	    	$this->view->form = $form;
     	}
@@ -57,10 +55,16 @@ class CalendarController extends Zend_Controller_Action
 
     public function editAction()
     {
-    	$this->_helper->layout->disableLayout();
-    	$this->_helper->viewRenderer->setNoRender();
     	$calendar = Wevolt_Factory::table('calendar');
-    	var_dump($calendar);
+    	$event = $calendar->find($this->_getParam('id'))->current();
+    	$form = new Form_Event();
+		$form->populate($event->toArray());
+    	if ($this->getRequest()->isPost() && $form->isValid($this->_getAllParams())) {
+    		$values = $form->getValues();
+    		$event->setFromArray($values);
+    		$event->save();
+    	}
+    	$this->view->form = $form;
     }
     
     public function deleteAction()

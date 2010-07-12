@@ -1,0 +1,132 @@
+<!--<link rel="stylesheet" href="/css/jquery/cupertino/jquery-ui-1.8.1.custom.css" />-->
+<!--<script src="/js/jquery/jquery-1.4.2.min.js"></script>-->
+<!--<script src="/js/jquery/jquery-ui-1.8.1.custom.min.js"></script>-->
+<?php //if ($this->saved) : ?>
+<!--<script>-->
+<!--parent.$.fancybox.close();-->
+<!--</script>-->
+<!--its now saved-->
+<?php //endif; ?>
+<script>
+$(document).ready(function(){
+	$('#start_date').datepicker({
+		dateFormat: 'yy-mm-dd',
+		minDate: 0
+	});
+	$('#end_date').datepicker({
+		dateFormat: 'yy-mm-dd',
+		minDate: 0
+	});
+});
+</script>
+<form method="post" enctype="multipart/form-data">
+<table cellspacing="10">
+  <tr>
+    <td class="top">
+      <table cellspacing="10">
+		  <tr>
+		    <td>Type:</td>
+		    <td><?php echo $this->form->type; ?></td>
+		  </tr>
+		  <tr>
+		    <td>Title:</td>
+		    <td><?php echo $this->form->title; ?></td>
+		  </tr>
+		  <tr>
+		    <td class="top">Description:</td>
+		    <td><?php echo $this->form->description; ?></td>
+		  </tr>
+		  <tr>
+		    <td>Start:</td>
+		    <td>
+		      <?php echo $this->form->start_date; ?>
+		      <?php echo $this->form->start_time; ?>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td>End:</td>
+		    <td>
+		      <?php echo $this->form->end_date; ?>
+		      <?php echo $this->form->end_time; ?>
+		    </td>
+		  </tr>
+      </table>
+    </td>
+    <td class="top">
+      <table cellspacing="10">
+          <tr>
+            <td>Thumb:</td>
+            <td><input type="file" name="thumb" /></td>
+          </tr>
+		  <tr>
+		    <td>Location:</td>
+		    <td><?php echo $this->form->location; ?></td>
+		  </tr>
+		  <tr>
+		    <td>Address:</td>
+		    <td><?php echo $this->form->address; ?></td>
+		  </tr>
+		  <tr>
+		    <td>Address 2:</td>
+		    <td><?php echo $this->form->address2; ?></td>
+		  </tr>
+		  <tr>
+		    <td>City:</td>
+		    <td><?php echo $this->form->city; ?></td>
+		  </tr>
+		  <tr>
+		    <td>State:</td>
+		    <td><?php echo $this->form->state; ?></td>
+		  </tr>
+		  <tr>
+		    <td>Zip:</td>
+		    <td><?php echo $this->form->zip; ?></td>
+		  </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <fieldset>
+        <legend>Repeat Options</legend>
+        <table cellspacing="10">
+          <tr>
+            <td class="top">
+              <table cellspacing="10">
+		          <tr>
+		            <td>Frequency:</td>
+		            <td><?php echo $this->form->frequency; ?></td>
+		          </tr>
+		          <tr>
+		            <td>Interval:</td>
+		            <td><?php echo $this->form->interval; ?></td>
+		          </tr>
+		          <tr>
+		            <td>Custom:</td>
+		            <td><?php echo $this->form->custom; ?></td>
+		          </tr>
+		          <tr>
+		            <td>Week Number:</td>
+		            <td><?php echo $this->form->week_number; ?></td>
+		          </tr>
+              </table>
+            </td>
+            <td class="top">
+              <table cellspacing="10">
+                <tr>
+                  <td>
+		            <?php echo $this->form->week_day; ?>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </fieldset>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2"><?php echo $this->form->submit; ?></td>
+  </tr>
+</table>
+</form>
