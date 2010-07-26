@@ -42,7 +42,7 @@ class Form_Event extends Zend_Form
     	$values = parent::getValues();
     	$values['start'] = $values['start_date'] . ' ' . $values['start_time'];
     	$values['end'] = $values['end_date'] . ' ' . $values['end_time'];
-    	$values['week_day'] = implode(',', $values['week_day']);
+    	$values['week_day'] = implode(',', (array) $values['week_day']);
     	return $values;
     }
     

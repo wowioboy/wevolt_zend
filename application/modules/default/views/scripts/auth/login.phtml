@@ -1,16 +1,33 @@
-<?php echo $this->loginForm->render(); ?>
-
-<?php if ($this->iframe) : ?>
-	<script src="/js/jquery/jquery-1.4.2.min.js"></script>
-	<?php if ($this->closeModal) : ?>
-	<script>
-	parent.$.fancybox.close();
-	parent.window.location = parent.window.location.href;
-	</script>
-	<?php endif; ?>
-<?php endif; ?>
 <script>
 $(document).ready(function(){
 	$('#email').focus();
+	$('#loginForm').submit(function(){
+		$.post('/auth/login', $(this).formSerialize(), function(data) {
+			if (data == '1') {
+				try { 
+					parent.$.fancybox.close();
+					parent.window.location = parent.window.location.href;
+				} catch (e) {
+					window.location = '';
+				}
+			} else {
+				alert('username or password incorrect.');
+			}
+		});
+		return false;
+	});
 });
 </script>
+<form id="loginForm">
+email:
+<br />
+<input id="email" name="email" type="text" />
+<br />
+<br />
+password:
+<br />
+<input name="password" type="password" />
+<br />
+<br />
+<input type="submit" value="login" />
+</form>

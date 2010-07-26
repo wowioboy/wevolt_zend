@@ -1,1 +1,81 @@
-<?php
+<link href="/css/updates.css" rel="stylesheet" />
+<script>
+$(document).ready(function(){
+	$('#tabs').tabs();
+	$('.expander').live('click', function(){
+		var expander = $(this);
+		var id = expander.attr('subjectid');
+		var update = expander.attr('updateid');
+		var type = expander.attr('type');
+		var filter = expander.attr('filter');
+		var box = $('#' + filter + '_' + type + '_' + id);
+		if (box.css('display') == 'none') {
+			var object = {
+				id: id,
+				type: type,
+				update: update
+			};
+			$.getJSON('/updates/expanded', object, function(data) {
+				var string = '<ul>';
+				$.each(data, function(){
+					var date = $.fullCalendar.parseDate(this.date);
+					var title = this.title;
+					date = $.fullCalendar.formatDate(date, 'MMMM dS, yyyy @ h:mm tt');
+					string += '<li>' + this.action + ' <a href="' + this.link + '">';
+					if (title) {
+						if (title.length > 17) {
+							title = title.substr(0, 17) + '...';
+						}
+						string += title;
+					} else {
+						string += this.subject;
+					}
+					string += '</a> - ' + date + '</li>';
+				});
+				string += '</ul>';
+				box.html(string);
+				box.slideDown();
+				expander.attr('src', '/images/silk/arrow_on.png');
+			});
+		} else {
+			box.slideUp();
+			expander.attr('src', '/images/silk/arrow_off.png');
+		}
+	});
+	$('.followButton').live('click', function(){
+		var button = $(this);
+		var object = {
+			type: button.attr('type'),
+			id: button.attr('subjectid')
+		};
+		$.get('/updates/follow', object, function(data){
+			// 1 = subscribed
+			// 2 = unsubscribed
+			switch (data) {
+				case '1':
+					button.html('unsubscribe');
+					alert("You're now following this update.");
+					break;
+				case '2':
+					button.html('subscribe');
+					alert("You're no longer following this update.");
+					break;
+				default:
+					alert("error occured: " + data);
+			}
+		});
+	});
+});
+</script>
+<div id="tabs">
+  <ul>
+	<?php if (Zend_Auth::getInstance()->hasIdentity()) : ?>
+	  <li><a href="/updates/sub-tab?filter=my"><span>My Subscriptions</span></a></li>
+	  <li><a href="/updates/sub-tab?filter=friends"><span>Friends</span></a></li>
+	<?php endif; ?>
+	  <li><a href="/updates/sub-tab?filter=all"><span>All</span></a></li>
+	  <?php if (Zend_Auth::getInstance()->hasIdentity()) : ?>
+	  <li><a href="/updates/sub-tab?filter=calendar"><span>Calendar</span></a></li>
+	  <?php endif; ?>
+  </ul>
+</div>

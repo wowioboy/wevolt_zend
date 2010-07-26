@@ -1,0 +1,34 @@
+<?php if ($this->updates) : ?>
+<?php foreach ($this->updates as $row) : ?>
+  <?php 
+    $title = $row['title'];
+    if ($title && strlen($title) > 25) {
+    	$title = substr($title, 0, 25) . '...';
+    }
+    $thumb = $row['thumb'];
+//    $link = $row['url'];
+    $type = $row['type'];
+    $id = $row['id'];
+    $encryptId = $row['encrypt_id'];
+    $date = new DateTime($row['start']); 
+    $date = $date->format('F jS, Y @ g:i a'); 
+  ?>
+  <div class="table left">
+    <div class="cell">
+      <div class="update">
+        <div class="inline top">
+          <img src="<?php echo $thumb; ?>" width="50" height="50" />
+        </div>
+        <div class="inline middle">
+          <b><?php echo $type; ?></b>&nbsp;&nbsp;<a href="javascript:open_event_wizard('edit', '<?php echo $encryptId; ?>');"><img style="border:none;" src="/images/silk/edit_off.png" /></a>
+          <br />
+          <br />
+          <a href="javascript:view_event('view', '<?php echo $id; ?>');"><?php echo $title; ?></a>
+        </div>
+      </div>
+    </div> 
+  </div>
+<?php endforeach; ?>
+<?php else: ?>
+There are no events at this time.
+<?php endif; ?>

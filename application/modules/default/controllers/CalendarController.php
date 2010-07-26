@@ -34,8 +34,7 @@ class CalendarController extends Zend_Controller_Action
     {
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender();
-        $calendar = new Model_DbTable_Calendar;
-		$events = $calendar->getEvents($this->_getParam('start'), $this->_getParam('end'), $this->_getParam('userid'), $this->_getParam('type'));
+		$events = Wevolt_Factory::table('calendar')->getEvents($this->_getParam('start'), $this->_getParam('end'), $this->_getParam('userid'), $this->_getParam('type'));
         echo json_encode($events);
     }
 
@@ -43,28 +42,24 @@ class CalendarController extends Zend_Controller_Action
     {
     	$form = new Form_Event();
     	if ($this->getRequest()->isPost() && $form->isValid($this->_getAllParams())) {
-    		$calendar = new Model_DbTable_Calendar;
-    		$values = $form->getValues();
-    		$event = $calendar->createRow($values);
-    		$event->user_id = Zend_Auth::getInstance()->getIdentity()->encryptid;
-    		$event->save();
-    	} else {
-	    	$this->view->form = $form;
+    		Wevolt_Factory::table('calendar')->createRow($form->getValues())->save();
     	}
+    	$this->view->form = $form;
     }
 
     public function editAction()
     {
-    	$calendar = Wevolt_Factory::table('calendar');
-    	$event = $calendar->find($this->_getParam('id'))->current();
-    	$form = new Form_Event();
-		$form->populate($event->toArray());
-    	if ($this->getRequest()->isPost() && $form->isValid($this->_getAllParams())) {
-    		$values = $form->getValues();
-    		$event->setFromArray($values);
-    		$event->save();
+    	if ($id = $this->_getParam('id')) {
+	    	$event = Wevolt_Factory::table('calendar')->find($id)->current();
+	    	$form = new Form_Event();
+			$form->populate($event->toArray());
+	    	if ($this->getRequest()->isPost() && $form->isValid($this->_getAllParams())) {
+	    		$event->setFromArray($form->getValues())->save();
+	    	}
+	    	$this->view->form = $form;
+    	} else {
+    		echo "Hey! Where's the event you're trying to edit?!"; exit;
     	}
-    	$this->view->form = $form;
     }
     
     public function deleteAction()
@@ -72,9 +67,7 @@ class CalendarController extends Zend_Controller_Action
     	$this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender();
         if ($id = $this->_getParam('id')) {
-        	$calendar = new Model_DbTable_Calendar;
-        	$event = $calendar->find($id)->current();
-        	$event->delete();
+	        Wevolt_Factory::table('calendar')->find($id)->current()->delete();
         }
     }
 }

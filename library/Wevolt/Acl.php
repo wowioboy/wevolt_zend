@@ -22,10 +22,12 @@ class Wevolt_Acl extends Zend_Acl
 		$this->add(new Zend_Acl_Resource('error'));
 		$this->add(new Zend_Acl_Resource('index'));
 		$this->add(new Zend_Acl_Resource('calendar'));
+		$this->add(new Zend_Acl_Resource('store'));
 		
 		$this->allow();
 		$this->deny('guest', 'calendar', 'add');
 		$this->deny('guest', 'calendar', 'edit');
+		$this->deny('guest', 'store');
 	}
 	
 	public function getUserRole()

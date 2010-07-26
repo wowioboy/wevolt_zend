@@ -1,1 +1,57 @@
-<?php
+<?php if ($this->updates) : ?>
+<?php foreach ($this->updates as $row) : ?>
+  <?php 
+    $date = new DateTime($row['date']); 
+    $date = $date->format('F jS, Y @ g:i a'); 
+    $subjectId = $row['subject_id'];
+    $id = $row['id'];
+    $count = $row['count'];
+    $name = $row['name'];
+    $thumb = $row['thumb'];
+    // BS for the way images are stored in the DB
+    if (strstr($thumb, 'http') === false) {
+    	if ($thumb{0} == '/') {
+    		$thumb = substr($thumb, 1);	
+    	}
+    	$thumb = 'http://www.wevolt.com/' . $thumb;
+    }
+    $following = $row['following'];
+    $link = $row['link'];
+    $action = $row['action'];
+    $subject = $row['subject'];
+    $title = $row['title'];
+    if ($title && strlen($title) > 17) {
+    	$title = substr($title, 0, 17) . '...';
+    }
+  ?>
+  <div class="table left">
+    <div class="cell">
+      <div class="update">
+        <div class="inline top">
+          <?php if (isset($thumb)) : ?>
+          <img src="<?php echo $thumb; ?>" width="50" height="50" />
+          <?php endif; ?>
+        </div>
+        <div class="inline middle">
+          <b><?php echo $name; ?></b>&nbsp;&nbsp;
+  		  <?php if (Zend_Auth::getInstance()->hasIdentity()) : ?>        
+            <button class="followButton" subjectid="<?php echo $subjectId; ?>" type="<?php echo $this->type; ?>" filter="<?php echo $this->filter; ?>"><?php echo ($following) ? 'unsubscribe' : 'subscribe'; ?></button>
+          <?php endif; ?>
+          <br />
+          <br />
+          <?php echo $action; ?> 
+          <a href="<?php echo $link; ?>"><?php echo ($title) ? $title : $subject; ?></a> - <?php echo $date; ?>
+          <?php if ($this->filter == 'my' && $count > 1) : ?>
+          <img src="/images/silk/arrow_off.png" class="expander" updateid="<?php echo $id; ?>" subjectid="<?php echo $subjectId; ?>" type="<?php echo $this->type; ?>" filter="<?php echo $this->filter; ?>" />
+          <?php endif; ?>
+        </div>
+        <?php if ($this->filter == 'my') : ?>
+        <div id="<?php echo "{$this->filter}_{$this->type}_{$subjectId}"; ?>" style="display:none;"></div>
+        <?php endif; ?>
+      </div>
+    </div> 
+  </div>
+<?php endforeach; ?>
+<?php else: ?>
+No recent updates.
+<?php endif; ?>

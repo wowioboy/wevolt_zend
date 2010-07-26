@@ -1,0 +1,17 @@
+@CHARSET "UTF-8";
+/* UPDATES */
+.update {
+	text-align:left;
+	width:500px;
+	padding:10px;
+	background-color:#caf1c9;
+	color:#639162;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	margin:1px;
+}
+.update a {
+	text-decoration:underline;
+	color:#639162;
+}

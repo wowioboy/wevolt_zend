@@ -11,9 +11,9 @@ $(document).ready(function(){
 	$('#loginbutton').click(function(){
 		$.fancybox({
 			href:'/login?iframe=1',
-			type:'iframe',
-			width:300,
-			height:300
+			autoDimensions: false,
+			width:200,
+			height:200
 		});
 	});
 });
@@ -56,14 +56,15 @@ $(document).ready(function(){
   	<div class="table" style="height:100%;">
       <div class="cell middle center" style="height:100%;width:100%;">
         <!-- heres where all the code goes for the tool bar buttons and xp level and such -->
-        <?php if(Wevolt_Acl::getInstance()->getUserRole() == 'guest') : ?>
-        	<button id="loginbutton">login</button>
-       	<?php else : ?>
+        <?php if (Zend_Auth::getInstance()->hasIdentity()) : ?>
        		<button onclick="window.location='/logout'">logout</button>
+       	<?php else : ?>
+        	<button id="loginbutton">login</button>
         <?php endif; ?>
   	    <a href="/">home</a>
   	    <a href="/contact">contact</a>
   	    <a href="/store">store</a>
+  	    <a href="/updates">updates</a>
       </div>
   	</div>
   </div>

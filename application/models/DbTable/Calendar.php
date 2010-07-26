@@ -3,6 +3,13 @@
 class Model_DbTable_Calendar extends Zend_Db_Table_Abstract
 {
     protected $_name = 'calendar';
+    protected $_rowClass = 'Model_DbTable_Row_Event';
+    
+    public function createRow(array $data = array())
+    {
+    	$data['user_id'] = Zend_Auth::getInstance()->getIdentity()->encryptid;
+    	return parent::createRow($data);
+    }
     
     public function getEvents($start, $end, $userId, $type = 'all')
     {
@@ -143,5 +150,119 @@ class Model_DbTable_Calendar extends Zend_Db_Table_Abstract
 			}
     	}
     	return $events;
+    }
+    
+    public function getUpdates($userid, $range)
+    {
+    	$queries = array();
+		if ($range == 'today') {
+			// get everything for today 
+			$queries[] = "select * 
+						  from calendar 
+						  where user_id = '$userid' 
+						  and curdate() = date(start)";
+			// get non custom repeating days 
+			$queries[] = "select * 
+						  from calendar 
+						  where user_id = '$userid' 
+						  and date(start) <= curdate()
+						  and frequency = 'day'
+						  and custom != '1' 
+						  and mod(datediff(now(), start), `interval`) = 0";
+			// get non custom repeating weeks 
+			$queries[] = "select * 
+						  from calendar 
+						  where user_id = '$userid' 
+						  and date(start) <= curdate()
+						  and frequency = 'week'
+						  and custom != '1' 
+						  and ceil(mod(datediff(now(), start) / 7, `interval`)) = 0";
+			// get non custom repeating months 
+			$queries[] = "select * 
+						  from calendar 
+						  where user_id = '$userid' 
+						  and date(start) <= curdate()
+						  and frequency = 'month'
+						  and custom != '1' 
+						  and mod(period_diff(date_format(now(), '%Y%m'), date_format(start, '%Y%m')), `interval`) = 0 
+						  and day(start) = day(now())";
+			// get custom weeks 
+			$queries[] = "select * 
+						  from calendar 
+						  where user_id = '$userid' 
+						  and date(start) <= curdate()
+						  and frequency = 'week' 
+						  and custom = '1'
+						  and week_day like concat('%', weekday(now()) + 1, '%') 
+						  and mod(abs(weekofyear(now()) - weekofyear(start)), `interval`) = 0";
+			// get custom months
+			$queries[] = "select * 
+						  from calendar 
+						  where user_id = '$userid' 
+						  and date(start) <= curdate()
+						  and frequency = 'month'
+						  and custom = '1'
+						  and week_day like concat('%', weekday(now()) + 1, '%') 
+						  and if (dayofweek(now()) < dayofweek(concat(date_format(now(), '%Y-%m-'), '01')), ceil(day(now()) / 7), ceil(day(now()) / 7 + 1)) = week_number 
+						  and mod(period_diff(date_format(now(), '%Y%m'), date_format(start, '%Y%m')), `interval`) = 0";
+		} else if ($range == 'week') {
+			$date = new DateTime();
+			$interval = $date->format('N') - 1;
+			$date->modify("-$interval day");
+			for ($i = 0; $i < 7; $i++) {
+				$dateString = $date->format('Y-m-d');
+				$queries[] = "select * 
+						  from calendar 
+						  where user_id = '$userid' 
+						  and '$dateString' = date(start)";
+				// get non custom repeating days 
+				$queries[] = "select * 
+							  from calendar 
+							  where user_id = '$userid' 
+							  and date(start) <= '$dateString'
+							  and frequency = 'day'
+							  and custom != '1' 
+							  and mod(datediff('$dateString', start), `interval`) = 0";
+				// get non custom repeating weeks 
+				$queries[] = "select * 
+							  from calendar 
+							  where user_id = '$userid' 
+							  and date(start) <= '$dateString'
+							  and frequency = 'week'
+							  and custom != '1' 
+							  and ceil(mod(datediff('$dateString', start) / 7, `interval`)) = 0";
+				// get non custom repeating months 
+				$queries[] = "select * 
+							  from calendar 
+							  where user_id = '$userid' 
+							  and date(start) <= '$dateString'
+							  and frequency = 'month'
+							  and custom != '1' 
+							  and mod(period_diff(date_format('$dateString', '%Y%m'), date_format(start, '%Y%m')), `interval`) = 0 
+							  and day(start) = day('$dateString')";
+				// get custom weeks 
+				$queries[] = "select * 
+							  from calendar 
+							  where user_id = '$userid' 
+							  and date(start) <= '$dateString'
+							  and frequency = 'week' 
+							  and custom = '1'
+							  and week_day like concat('%', weekday('$dateString') + 1, '%') 
+							  and mod(abs(weekofyear('$dateString') - weekofyear(start)), `interval`) = 0";
+				// get custom months
+				$queries[] = "select * 
+							  from calendar 
+							  where user_id = '$userid' 
+							  and date(start) <= '$dateString'
+							  and frequency = 'month'
+							  and custom = '1'
+							  and week_day like concat('%', weekday('$dateString') + 1, '%') 
+							  and if (dayofweek('$dateString') < dayofweek(concat(date_format('$dateString', '%Y-%m-'), '01')), ceil(day('$dateString') / 7), ceil(day('$dateString') / 7 + 1)) = week_number 
+							  and mod(period_diff(date_format('$dateString', '%Y%m'), date_format(start, '%Y%m')), `interval`) = 0";
+				$date->modify('+1 day');	
+			}
+		}
+		$query = implode(' union ', $queries);
+		return $this->getAdapter()->fetchAll($query);
     }
 }

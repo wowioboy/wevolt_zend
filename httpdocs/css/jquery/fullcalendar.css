@@ -68,6 +68,7 @@ table.fc-header {
 	}
 	
 .fc-header-title {
+	font-size:14px;
 	margin-top: 5px;
 	white-space: nowrap;
 	color:#26649c;

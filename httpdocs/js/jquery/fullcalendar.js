@@ -49,7 +49,7 @@ var defaults = {
 	lazyFetching: true,
 	startParam: 'start',
 	endParam: 'end',
-	type: 'all',
+	type: 'reminder',
 	
 	// time formats
 	titleFormat: {
@@ -71,7 +71,7 @@ var defaults = {
 	firstDay: 0,
 	monthNames: ['January','February','March','April','May','June','July','August','September','October','November','December'],
 	monthNamesShort: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
-	dayNames: ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
+	dayNames: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
 	dayNamesShort: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
 	buttonText: {
 		prev: '&nbsp;&#9668;&nbsp;',
@@ -749,19 +749,19 @@ $.fn.fullCalendar = function(options) {
 						}else if (buttonName == 'sort') {
 							tr.append('<td><div style="height:5px;"></div>' +
 									'<select id="calendar_selector">' +
-									'<option value="all">all</option>' +
-									'<option value="event">events</option>' +
 									'<option value="reminder">reminders</option>' +
+									'<option value="event">events</option>' +
 									'<option value="todo">todos</option>' +
 									'<option value="promotion">promotions</option>' +
+									'<option value="all">all</option>' +
 									'</select></td>');
 						} else if (buttonName == 'add' || buttonName == 'trash' || buttonName == 'edit') {
 							if (buttonName == 'add') {
-								var events = 'onmouseover="this.src=\'/images/silk/' + buttonName + '_on.png\';" onmouseout="this.src=\'/images/silk/' + buttonName + '_off.png\';"';
-							}
+								var events = 'onmouseover="this.src=\'http://www.wevolt.com/images/silk/' + buttonName + '_on.png\';" onmouseout="this.src=\'http://www.wevolt.com/images/silk/' + buttonName + '_off.png\';"';
+							} 
 							tr.append('<td>' + 
 									  '<div style="height:4px;"></div>' + 
-									  '<img src="/images/silk/' + buttonName + '_off.png" id="cal_' + buttonName + '_button" ' + events +  ' />' + 
+									  '<img src="http://www.wevolt.com/images/silk/' + buttonName + '_off.png" id="cal_' + buttonName + '_button" ' + events +  ' />' + 
 									  '</td>');
 						} else {
 							var buttonClick;
