@@ -37,6 +37,14 @@ ul {
 	margin-top:5px;
 }
 
+/* FORMS */
+.error {
+	display:block;
+	color:#f99;
+	margin:0;
+	padding:0;
+}
+
 /* CAROUSELS */
 .slide {
 	display:inline-block;

@@ -1,14 +1,12 @@
 <?php
 class Wevolt_Db_Table extends Zend_Db_Table_Abstract
 {
-	public function doCount($where = null, $table = null)
+	public function doCount($where = null)
 	{
-		if (!$table) {
-			$table = $this->_name;
+		$select = $this->getAdapter()->select()->from($this->_name, array('count(1)'));
+		if (isset($where)) {
+			$select->where($where);
 		}
-		if ($where) {
-			$where = "where $where";
-		}
-		return $this->getAdapter()->fetchOne("select count(1) from $table $where");
+		return $this->getAdapter()->fetchOne($select);
 	}
 }

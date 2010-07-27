@@ -13,7 +13,7 @@ $(document).ready(function(){
 			href:'/login?iframe=1',
 			autoDimensions: false,
 			width:200,
-			height:200
+			height:300
 		});
 	});
 });
@@ -32,7 +32,7 @@ $(document).ready(function(){
 }
 #toolbar {
 	display:none;
-	height:50px;
+	height:100px;
 	border-top:2px solid #000;
 	background-color:#b6d7f4;
 	background: -webkit-gradient(linear, 

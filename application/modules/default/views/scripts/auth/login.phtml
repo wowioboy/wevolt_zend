@@ -1,32 +1,37 @@
 <script>
 $(document).ready(function(){
 	$('#email').focus();
-	$('#loginForm').submit(function(){
-		$.post('/auth/login', $(this).formSerialize(), function(data) {
-			if (data == '1') {
-				try { 
-					parent.$.fancybox.close();
-					parent.window.location = parent.window.location.href;
-				} catch (e) {
-					window.location = '';
+	$('#loginForm').validate({
+		submitHandler: function(form) {
+			$.fancybox.showActivity();
+			$(form).ajaxForm({
+				success: function(data) {
+					$.fancybox.hideActivity();
+					if (data == '1') {
+						try { 
+							parent.$.fancybox.close();
+							parent.window.location = parent.window.location.href;
+						} catch (e) {
+							window.location = '';
+						}
+					} else {
+						alert('username or password incorrect.');
+					}
 				}
-			} else {
-				alert('username or password incorrect.');
-			}
-		});
-		return false;
+			});
+	   	}
 	});
 });
 </script>
-<form id="loginForm">
+<form id="loginForm" method="post" action="/login">
 email:
 <br />
-<input id="email" name="email" type="text" />
+<input id="email" name="email" type="text" class="required email" />
 <br />
 <br />
 password:
 <br />
-<input name="password" type="password" />
+<input name="password" type="password" class="required" />
 <br />
 <br />
 <input type="submit" value="login" />

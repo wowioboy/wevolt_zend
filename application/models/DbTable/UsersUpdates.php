@@ -14,7 +14,7 @@ class Model_DbTable_UsersUpdates extends Wevolt_Db_Table
     		return 2;
     	} else {
     		$this->subscribe($userid, $id, $subject);
-    		return 1;"You're now following this update.";
+    		return 1;
     	}
     }
     

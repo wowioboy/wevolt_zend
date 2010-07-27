@@ -1,8 +1,8 @@
 .project
 .zfproject.xml
+tests
+docs
+.settings
+httpdocs/uploads
+application/configs
 .buildpath
-/tests
-/docs
-/.settings
-/httpdocs/uploads
-application/configs/application.ini
