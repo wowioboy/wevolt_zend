@@ -14,34 +14,29 @@ class Wevolt_Acl extends Zend_Acl
 	public function __construct()
 	{
 		# ADD USER TYPES
-		$this->addRole(new Zend_Acl_Role('prouser'));
-		$this->addRole(new Zend_Acl_Role('user'), 'prouser');
-		$this->addRole(new Zend_Acl_Role('guest'), 'user');
+		$this->addRole(new Zend_Acl_Role('guest'));
+		$this->addRole(new Zend_Acl_Role('user'), 'guest');
+		$this->addRole(new Zend_Acl_Role('prouser'), 'user');
+		$this->addRole(new Zend_Acl_Role('admin'));
 		
 		# ADD RESOURCES
-		$this->add(new Zend_Acl_Resource('error'));
-		$this->add(new Zend_Acl_Resource('index'));
-		$this->add(new Zend_Acl_Resource('calendar'));
-		$this->add(new Zend_Acl_Resource('store:index'));
+		$this->add(new Zend_Acl_Resource('default:error'));
+		$this->add(new Zend_Acl_Resource('default:index'));
+		$this->add(new Zend_Acl_Resource('default:calendar'));
+		$this->add(new Zend_Acl_Resource('default:faqs'));
+		$this->add(new Zend_Acl_Resource('default:search'));
+		$this->add(new Zend_Acl_Resource('default:auth'));
+//		$this->add(new Zend_Acl_Resource('store:index'));
 		
-		$this->allow();
-		$this->deny('guest', 'calendar', 'add');
-		$this->deny('guest', 'calendar', 'edit');
-		$this->deny('guest', 'store:index');
-	}
-	
-	public function getUserRole()
-	{
-		$auth = Zend_Auth::getInstance();
-  		if ($auth->hasIdentity()) {
-  			if ($auth->getIdentity()->isPro) {
-  				$role = 'prouser';
-  			} else {
-  				$role = 'user';
-  			}
-  		} else {
-  			$role = 'guest';
-  		}
-  		return $role;
+		# start with no privelages
+		$this->deny();
+		
+		# admin can access everything
+		$this->allow('admin');
+		
+		# guest has most of the basic access
+		$this->allow('guest', 'default:auth');
+		$this->allow('guest', 'default:index');
+		$this->allow('guest', 'default:faqs');
 	}
 }

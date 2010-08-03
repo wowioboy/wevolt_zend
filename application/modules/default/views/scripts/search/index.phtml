@@ -1,1 +1,23 @@
-<br /><br /><center>View script for controller <b>Search</b> and script/action name <b>index</b></center>
+<script type="text/javascript">
+//Ext.onReady(function(){
+//	
+//});
+$(document).ready(function(){ 
+	$('#search').keyup(function(){
+		var search = $(this).val();
+		$.getJSON('/search/get-results', {search: search}, function(data) {
+			var html = data.count;
+			$.each(data.rows, function(){
+				html += '<div style="display:inline-block;border:2px solid #000;width:200px;height:150px;"><img src="' + this.thumb + '" width="50" height="50" /><br />' + this.title + '</div>';
+			});
+			$('#search-results').html(html);
+		});
+	});
+});
+</script>
+<div>
+search: <input type="text" id="search" />
+</div>
+<div id="search-results">
+
+</div>

@@ -1,12 +1,10 @@
 <script>
 $(document).ready(function(){
-	$('#toolbar_holder').mouseover(function(){
+	$('#toolbar_holder').mouseenter(function(){
 		$('#toolbar').slideDown('fast');
 	});
-	$('#toolbar_holder').mouseout(function(e) {
-		if ($.contains(this, e.relatedTarget) == false) {
-			$('#toolbar').slideUp('fast');
-		}
+	$('#toolbar').mouseleave(function() {
+		$(this).slideUp('fast');
 	});
 	$('#loginbutton').click(function(){
 		$.fancybox({
@@ -51,6 +49,7 @@ $(document).ready(function(){
 }
 </style>
 <div id="toolbar_holder">
+  <!-- this empty div determines the distance you have to be from the bottom to pop up the menu -->
   <div style="height:20px;"></div>
   <div id="toolbar">
   	<div class="table" style="height:100%;">

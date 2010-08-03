@@ -1,26 +1,28 @@
+/*
 * {
 	margin:0;
 	padding:0;
 }
+*/
 
+/*
 button {
 	padding:5px;
 }
+*/
 
 body {
 	background-image:url(/images/new_bg2.jpg);
 	background-attachment:fixed;
 	background-repeat:no-repeat;
 	background-color:rgb(14, 71, 138);
-	padding-bottom:50px;
 	font-family:'verdana';
 	font-size:12px;
-	color: #fff;
+	color:#fff;
 }
 
 a {
 	text-decoration:none;
-	border:none;
 	color:#fff;
 }
 
@@ -104,7 +106,7 @@ ul {
 	color:#333;
 }
 .panel_holder {
-	margin:10px;
+	margin-bottom:10px;
 }
 
 /* FORMS */
@@ -183,4 +185,9 @@ ul {
 
 .testback {
 	background-color:#f99;
+}
+
+/* jqGrid */
+#jqgrid {
+	color:#000;
 }

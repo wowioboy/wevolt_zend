@@ -4,7 +4,7 @@ $(document).ready(function(){
 	$('#loginForm').validate({
 		submitHandler: function(form) {
 			$.fancybox.showActivity();
-			$(form).ajaxForm({
+			$(form).ajaxSubmit({
 				success: function(data) {
 					$.fancybox.hideActivity();
 					if (data == '1') {

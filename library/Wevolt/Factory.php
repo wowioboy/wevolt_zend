@@ -7,7 +7,7 @@ class Wevolt_Factory
 		if (class_exists($class)) {
 			return new $class;
 		} else {
-			return new Zend_Db_Table_Abstract(array('name' => $tableName));
+			return new Wevolt_Db_Table(array('name' => $tableName));
 		}
 	}
 }

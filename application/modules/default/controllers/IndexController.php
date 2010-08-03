@@ -11,6 +11,9 @@ class IndexController extends Zend_Controller_Action
     public function indexAction()
     {
         // action body
+//        if (Zend_Auth::getInstance()->hasIdentity()) {
+//        	var_dump(Zend_Auth::getInstance()->getIdentity()->role);
+//        }
     }
 
 

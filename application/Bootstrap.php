@@ -22,7 +22,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 																					'action' => 'index'));
 		$router->addRoute('user_calendar', $route);
 		
-		# PLUGINS
-		$front->registerPlugin(new Wevolt_Plugin_Acl());
+		# PLUGINS - WORK ON THIS LATER
+//		$front->registerPlugin(new Wevolt_Plugin_Acl());
 	}
 }

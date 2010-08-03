@@ -11,12 +11,15 @@ class AuthController extends Zend_Controller_Action
             $adapter = new Zend_Auth_Adapter_DbTable($users->getAdapter(), 'users', 'email', 'password', 'md5(concat(md5(?), salt))');
             $adapter->setIdentity($this->_getParam('email'));
             $adapter->setCredential($this->_getParam('password'));
-            $result = Zend_Auth::getInstance()->authenticate($adapter);
-            if ($result->isValid()) {
+            if (Zend_Auth::getInstance()->authenticate($adapter)->isValid()) {
             	$storage = Zend_Auth::getInstance()->getStorage();
-            	$user = $adapter->getResultRowObject(null, array('salt'));
-            	$subscriptions = new Model_DbTable_Subscriptions;
-            	$user->isPro = $subscriptions->getPro($user->encryptid);
+            	$user = $adapter->getResultRowObject(array('encryptid', 'role', 'username'));
+            	if ($user->role == 'user' && $user->username != 'matteblack') {
+	            	$subscriptions = new Model_DbTable_Subscriptions;
+            		if (Wevolt_Factory::table('subscriptions')->getPro($user->encryptid)) {
+            			$user->role = 'prouser';
+            		}
+            	}
    				$storage->write($user);
    				echo 1;
    				return;

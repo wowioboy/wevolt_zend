@@ -13,7 +13,7 @@ $(document).ready(function(){
 	});
 });
 </script>
-<div class="panel_holder justify" style="width:280px;">
+<div class="panel_holder" style="width:280px;">
 <div class="panel_top">
   <div class="table">
     <div class="cell left middle">Spotlight</div>
@@ -26,14 +26,14 @@ $(document).ready(function(){
 	  <div style="visibility:hidden;">
 	    <?php if ($spotlight->FullImage) : ?>
 		  <a href="<?php echo $spotlight->Link; ?>">
-		    <img src="<?php echo $spotlight->Thumb; ?>" border="0" />
+		    <img src="<?php echo $spotlight->Thumb; ?>" height="154" width="275" border="0" />
 		  </a>
 	    <?php else : ?>
 		  <table>
 		    <tr>
-		      <td valign="top"><img src="<?php echo $spotlight->Thumb; ?>"></td>
+		      <td valign="top"><img src="<?php echo $spotlight->Thumb; ?>" height="100" width="100"></td>
 		      <td valign="top" style="padding-left:5px;padding-right:2px;">
-		        <div class="sender_name" style="color:#000;"><?php echo $spotlight->Header; ?></div>
+		        <div class="sender_name" style="color:#000;font-size:14px;"><?php echo $spotlight->Header; ?></div>
 		        <div style="font-size:12px;color:#000;">
 		          <?php echo $spotlight->Comment; ?>
 		          <br />
