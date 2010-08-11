@@ -4,6 +4,13 @@ class Model_DbTable_Calendar extends Zend_Db_Table_Abstract
 {
     protected $_name = 'calendar';
     protected $_rowClass = 'Model_DbTable_Row_Event';
+    protected $_referenceMap = array(
+    	'User' => array(
+    		'columns'       => 'user_id',
+    		'refTableClass' => 'Model_DbTable_Users',
+    		'refColumns'    => 'encryptid'
+    	)
+    );
     
     public function createRow(array $data = array())
     {

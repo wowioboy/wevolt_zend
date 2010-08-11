@@ -1,1 +1,11 @@
-<?php echo $this->partial('index/_latest.php'); ?>
+<div class="table space">
+  <div class="cell top">
+  	<?php echo $this->partial('index/_latest.php'); ?>
+  </div>
+  <div class="cell top">
+    <div style="width:302px;height:246px;background-color:#999;">Advertisement!!</div>
+  </div>
+</div>
+<div>
+<?php echo $this->partial('index/_news.php', array('type' => 'news'))?>
+</div>

@@ -13,9 +13,9 @@ $(document).ready(function(){
 	});
 });
 </script>
-<div class="panel_holder" style="width:280px;">
+<div class="panel_holder" style="width:280px;margin:0px auto;">
 <div class="panel_top">
-  <div class="table">
+  <div class="table fill">
     <div class="cell left middle">Spotlight</div>
     <div class="cell right middle"><span id="lowernavs"></span></div>
   </div>

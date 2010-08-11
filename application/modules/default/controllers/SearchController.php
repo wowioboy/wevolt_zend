@@ -13,11 +13,13 @@ class SearchController extends Zend_Controller_Action
     	$page = $this->_getParam('page');
     	$limit = $this->_getParam('limit');
     	$search = $this->_getParam('search');
-    	$sortCol = $this->_getParam('sidx');
-    	$sortDir = $this->_getParam('sord');
-    	
+    	$sortCol = $this->_getParam('sort_col');
+    	$sortDir = $this->_getParam('sort_dir');
 		
-    	$results = Wevolt_Factory::table('comics')->getComics($page, $limit, $sortCol, $sortDir, $search);
-    	echo json_encode($results);
+    	if ($content = $this->_getParam('content')) {
+	    	$results = Wevolt_Factory::table($content)->search($page, $limit, $sortCol, $sortDir, $search);
+	    	echo json_encode($results);
+    	}
     }
+    
 }

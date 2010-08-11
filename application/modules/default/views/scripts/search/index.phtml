@@ -1,23 +1,125 @@
 <script type="text/javascript">
-//Ext.onReady(function(){
-//	
-//});
 $(document).ready(function(){ 
-	$('#search').keyup(function(){
-		var search = $(this).val();
-		$.getJSON('/search/get-results', {search: search}, function(data) {
-			var html = data.count;
+	var limit = 16;
+	var page = 1;
+	var pages = 1;
+	function getResults()
+	{
+		$.fancybox.showActivity();
+		var search = $('#search').val();
+		var sort_col = $('#sortCol').val();
+		var sort_dir = $('#sortDir').val();
+		var content = $('#searchContent').val();
+		var params = {search: search, 
+					  page: page, 
+					  limit: limit, 
+					  sort_col: sort_col, 
+					  sort_dir: sort_dir,
+					  content: content};
+		$.getJSON('/search/get-results', params, function(data) {
+			page = data.page;
+			pages = data.pages;
+			var html = '&nbsp;&nbsp;';
+			
+			for (var i = 1; i <= data.pages; i++) {
+				if (i == page) {
+					html += '<u>' + i + '</u>&nbsp;&nbsp;'
+				} else {
+					html += '<a href="javascript:" class="pager_item">' + i + '</a>&nbsp;&nbsp;';
+				}
+			}  
+			$('#search-pager').html(html);
+
+			html = '<tr>';
+			var i = 0;
 			$.each(data.rows, function(){
-				html += '<div style="display:inline-block;border:2px solid #000;width:200px;height:150px;"><img src="' + this.thumb + '" width="50" height="50" /><br />' + this.title + '</div>';
+				if (i != 0 && i % 4 == 0) {
+					html += '</tr><tr>';
+				}
+				html += '<td align="center" valign="top" style="width:200px;"><img src="http://www.wevolt.com' + this.thumb + '" width="50" height="50" /><br /><p>' + this.title + '</p></td>';
+				i++;
 			});
+			html += '</tr>';
 			$('#search-results').html(html);
+			$.fancybox.hideActivity();
 		});
+	}
+	$('#search').keyup(function(){
+		page = 1;
+		getResults();
+	});
+	$('.pager_item').live('click', function(){
+		page = $(this).html();
+		getResults();
+	});
+	$('#left_pager').click(function(){
+		if (page != 1) {
+			page--;
+			getResults();
+		}
+	});
+	$('#right_pager').click(function(){
+		if (page < pages) {
+			page++;
+			getResults();
+		}
+	});
+	$('#sortCol').change(getResults);
+	$('#sortDir').change(getResults);
+	$('#searchContent').change(function(){
+		page = 1;
+		getResults();
 	});
 });
 </script>
 <div>
-search: <input type="text" id="search" />
+  <fieldset>
+    <legend>search parameters:</legend>
+    <table width="100%">
+      <tr>
+        <td>
+		  smart text:
+		  <br /> 
+		  <input type="text" id="search" />
+        </td>
+        <td>
+          sort column:
+          <br />
+          <select id="sortCol">
+            <option value="title">title</option>
+          </select>
+        </td>
+        <td>
+          sort direction:
+          <br />
+          <select id="sortDir">
+            <option value="asc">ascending</option>
+            <option value="desc">descending</option>
+          </select>
+        </td>
+        <td>
+          content:
+          <br />
+          <select id="searchContent">
+            <option value="comics">comics</option>
+<!--            <option value="blog">blogs</option>-->
+<!--            <option value="writing">writing</option>-->
+            <option value="forums">forums</option>
+          </select>
+        </td>
+      </tr>
+    </table>
+  </fieldset>
 </div>
-<div id="search-results">
-
+<div align="center" style="padding:10px;">
+  <a id="left_pager" href="javascript:">&laquo;</a><span id="search-pager"></span><a id="right_pager" href="javascript:">&raquo;</a>
+</div>
+<div>
+  <table id="search-results" width="100%" style="margin-left:auto;margin-right:auto;">
+    <tr >
+      <td>
+	  Change the search parameters to start!
+      </td>
+    </tr>
+  </table>
 </div>

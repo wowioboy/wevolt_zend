@@ -29,34 +29,35 @@
 <!--<script src="/js/ext/ext-jquery-adapter.js"></script>-->
 <!--<script src="/js/ext/ext-all.js"></script>-->
 <!--<link rel="stylesheet" href="/js/ext/xtheme-blue.css" />-->
+
 </head>
 <body>
-  <table cellspacing="0" cellpadding="10" width="100%">
-    <tr>
-      <td align="center" width="300px">
-        <a href="/"><img src="/images/wevolt_logo_no_tag.png" /></a>
-      </td>
-      <td>
-        big header
-      </td>
-    </tr>
-    <tr>
-      <td align="center" valign="top">
+  <div class="table space">
+    <div class="row">
+      <div class="cell top">
+        <div class="pad-bottom">
+          <a href="/"><img src="/images/wevolt_logo_no_tag.png" /></a>
+        </div>
         <?php if (!Zend_Auth::getInstance()->hasIdentity()) : ?>
-          <?php echo $this->partial('_getstarted.php'); ?>
+          <div class="pad-bottom">
+            <?php echo $this->partial('_getstarted.php'); ?>
+          </div>
         <?php endif; ?>
-        <?php echo $this->partial('_spotlight.php'); ?>
-        <span style="font-size:12px;">
+        <div class="pad-bottom">
+            <?php echo $this->partial('_spotlight.php'); ?>
+        </div>
+        <span>
           <a href="http://www.wowio.com/">2010 WOWIO</a> | 
           <a href="/faqs/privacy">Privacy Policy</a> | 
           <a href="/faqs/terms">Terms of Use</a>
         </span>
-      </td>
-      <td valign="top">
+      </div>
+      <div class="cell top no-space">
+        <div style="height:90px;">big header</div>
         <?php echo $this->layout()->content; ?>
-      </td>
-    </tr>
-  </table>
+      </div>
+    </div>
+  </div>
   <?php echo $this->partial('_toolbar.php'); ?>
 </body>
 </html>

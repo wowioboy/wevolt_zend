@@ -15,7 +15,7 @@ $(document).ready(function(){
 </script>
 <div class="panel_holder" style="width:412px;">
 <div class="panel_top">
-  <div class="table">
+  <div class="table fill">
     <div class="cell left middle">Latest</div>
     <div class="cell right middle"><span id="latestnavs"></span></div>
   </div>

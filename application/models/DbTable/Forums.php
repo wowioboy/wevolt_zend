@@ -1,17 +1,8 @@
 <?php
 
-class Model_DbTable_Comics extends Wevolt_Db_Table
+class Model_DbTable_Forums extends Wevolt_Db_Table
 {
-    protected $_name = 'comics';
-    protected $_rowClass = 'Model_DbTable_Row_Comic';
-    protected $_dependentTables = array('Model_DbTable_ComicPages');
-    protected $_referenceMap = array(
-    	'User' => array(
-    		'columns'       => 'userid',
-    		'refTableClass' => 'Model_DbTable_Users',
-    		'refColumns'    => 'encryptid'
-    	)
-    );
+    protected $_name = 'pf_forum_boards';
     
     public function search($page = 1, $limit = 20, $sortCol = 'title', $sortDir = 'asc', $search = null)
     {
@@ -23,7 +14,7 @@ class Model_DbTable_Comics extends Wevolt_Db_Table
     	}
     	$offset = $page * $limit - $limit;
     	$select = $this->getAdapter()->select()
-    								 ->from($this->_name, array('title', 'thumb'))
+    								 ->from($this->_name, array('title'))
     								 ->where("title != ''");
     	if (isset($search)) {
 			$search = str_replace(' ', '', $search);

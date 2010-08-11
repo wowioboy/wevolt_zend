@@ -1,15 +1,14 @@
 <?php
 
-class Model_DbTable_Comics extends Wevolt_Db_Table
+class Model_DbTable_ComicPages extends Wevolt_Db_Table
 {
-    protected $_name = 'comics';
-    protected $_rowClass = 'Model_DbTable_Row_Comic';
-    protected $_dependentTables = array('Model_DbTable_ComicPages');
+    protected $_name = 'comic_pages';
+    protected $_rowClass = 'Model_DbTable_Row_ComicPage';
     protected $_referenceMap = array(
-    	'User' => array(
-    		'columns'       => 'userid',
-    		'refTableClass' => 'Model_DbTable_Users',
-    		'refColumns'    => 'encryptid'
+    	'Comic' => array(
+    		'columns'       => 'ComicID',
+    		'refTableClass' => 'Model_DbTable_Comics',
+    		'refColumns'    => 'comiccrypt'
     	)
     );
     

@@ -57,7 +57,7 @@ $(document).ready(function(){
 </script>
 <div class="panel_holder" style="width:295px;">
   <div class="panel_top">
-    <div class="table">
+    <div class="table fill">
       <div class="cell left middle">Get Started!</div>
     </div>
   </div>
