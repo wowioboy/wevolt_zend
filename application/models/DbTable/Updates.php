@@ -2,6 +2,14 @@
 class Model_DbTable_Updates extends Wevolt_Db_Table
 {
     protected $_name = 'updates';
+    protected $_rowClass = 'Model_DbTable_Row_Update';
+    protected $_referenceMap = array(
+    	'User' => array(
+    		'columns'       => 'userid',
+    		'refTableClass' => 'Model_DbTable_Users',
+    		'refColumns'    => 'encryptid'
+    	)
+    );
     
     public function getUpdates($type = 'project', $filter = null, $userid = null)
     {
